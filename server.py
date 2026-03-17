@@ -167,7 +167,6 @@ from contribuicoes.modulos.bloco_p.rp200 import validar_p200
 from contribuicoes.modulos.bloco_p.rp210 import validar_p210
 
 
-# Mapeamento de códigos de registro para funções de validação - Bloco 0
 VALIDADORES_BLOCO_0 = {
     '0000': validar_0000,
     '0035': validar_0035,
@@ -190,7 +189,6 @@ VALIDADORES_BLOCO_0 = {
     '0900': validar_0900,
 }
 
-# Mapeamento de códigos de registro para funções de validação - Bloco 1
 VALIDADORES_BLOCO_1 = {
     '1010': validar_1010,
     '1011': validar_1011,
@@ -215,7 +213,6 @@ VALIDADORES_BLOCO_1 = {
     '1900': validar_1900,
 }
 
-# Mapeamento de códigos de registro para funções de validação - Bloco A
 VALIDADORES_BLOCO_A = {
     'A010': validar_a010,
     'A100': validar_a100,
@@ -332,6 +329,15 @@ VALIDADORES_BLOCO_I = {
     "I299": validar_i299,
     "I300": validar_i300,
     "I399": validar_i399
+}
+
+VALIDADORES_BLOCO_P = {
+    "P010": validar_p010,
+    "P100": validar_p100,
+    "P110": validar_p110,
+    "P199": validar_p199,
+    "P200": validar_p200,
+    "P210": validar_p210,
 }
 
 
@@ -597,7 +603,7 @@ def extrair_blocos_arquivo(conteudo_arquivo):
 
 def validar_registros_blocos_0_1(conteudo_arquivo):
     """
-    Valida os registros dos blocos 0, 1, A, C, D, F e I de um arquivo SPED Contribuições.
+    Valida os registros dos blocos 0, 1, A, C, D, F, I e P de um arquivo SPED Contribuições.
     
     Args:
         conteudo_arquivo: Bytes ou string com o conteúdo do arquivo
@@ -640,6 +646,11 @@ def validar_registros_blocos_0_1(conteudo_arquivo):
                 'I100': [resultados_validacao],
                 ...
             },
+            'bloco_p': {
+                'P010': [resultados_validacao],
+                'P100': [resultados_validacao],
+                ...
+            },
             'total_validacoes': int,
             'registros_validados': int
         }
@@ -652,6 +663,7 @@ def validar_registros_blocos_0_1(conteudo_arquivo):
         'bloco_d': {},
         'bloco_f': {},
         'bloco_i': {},
+        'bloco_p': {},
         'total_validacoes': 0,
         'registros_validados': 0
     }
@@ -690,6 +702,7 @@ def validar_registros_blocos_0_1(conteudo_arquivo):
     linhas_bloco_d = {}
     linhas_bloco_f = {}
     linhas_bloco_i = {}
+    linhas_bloco_p = {}
     
     try:
         for linha in arquivo:
@@ -750,6 +763,12 @@ def validar_registros_blocos_0_1(conteudo_arquivo):
                 if codigo_registro not in linhas_bloco_i:
                     linhas_bloco_i[codigo_registro] = []
                 linhas_bloco_i[codigo_registro].append(linha)
+
+            # Agrupa linhas do bloco P (todos os registros, mesmo sem validador)
+            elif bloco == 'P':
+                if codigo_registro not in linhas_bloco_p:
+                    linhas_bloco_p[codigo_registro] = []
+                linhas_bloco_p[codigo_registro].append(linha)
             
         # logger.info(f'Linhas do bloco C -> {linhas_bloco_c}')
         # Valida registros do bloco 0
@@ -915,6 +934,32 @@ def validar_registros_blocos_0_1(conteudo_arquivo):
             except Exception as e:
                 logger.error(f"Erro ao validar registro {codigo_registro} do bloco I: {str(e)}")
                 resultado['bloco_i'][codigo_registro] = []
+
+        # Valida registros do bloco P
+        for codigo_registro, linhas in linhas_bloco_p.items():
+            # Se não houver validador para este registro, retorna vazio
+            if codigo_registro not in VALIDADORES_BLOCO_P:
+                logger.debug(f"Nenhum validador encontrado para registro {codigo_registro} do bloco P, retornando vazio")
+                resultado['bloco_p'][codigo_registro] = []
+                continue
+
+            try:
+                validador = VALIDADORES_BLOCO_P[codigo_registro]
+                resultado_validacao = validador(linhas)
+
+                # Converte JSON string para objeto Python
+                try:
+                    resultado_json = json.loads(resultado_validacao)
+                    resultado['bloco_p'][codigo_registro] = resultado_json
+                    resultado['registros_validados'] += len(linhas)
+                    resultado['total_validacoes'] += len(resultado_json) if isinstance(resultado_json, list) else 1
+                except json.JSONDecodeError:
+                    logger.warning(f"Erro ao decodificar JSON do registro {codigo_registro}")
+                    resultado['bloco_p'][codigo_registro] = []
+
+            except Exception as e:
+                logger.error(f"Erro ao validar registro {codigo_registro} do bloco P: {str(e)}")
+                resultado['bloco_p'][codigo_registro] = []
         
         logger.debug(f"Validação concluída: {resultado['registros_validados']} registros validados, "
                     f"{resultado['total_validacoes']} validações realizadas")
@@ -1034,9 +1079,9 @@ def processar_zip_arquivos(zip_path):
                         }
                     }
                     
-                    # Se for EFD Contribuições, valida registros do bloco 0, 1, A, C, D, F e I
+                    # Se for EFD Contribuições, valida registros do bloco 0, 1, A, C, D, F, I e P
                     if classificacao == 'EFD_CONTRIBUICOES':
-                        # Verifica se há blocos 0, 1, A, C, D, F ou I para validar
+                        # Verifica se há blocos 0, 1, A, C, D, F, I ou P para validar
                         tem_bloco_0 = '0' in blocos_info['blocos_encontrados']
                         tem_bloco_1 = '1' in blocos_info['blocos_encontrados']
                         tem_bloco_a = 'A' in blocos_info['blocos_encontrados']
@@ -1044,9 +1089,10 @@ def processar_zip_arquivos(zip_path):
                         tem_bloco_d = 'D' in blocos_info['blocos_encontrados']
                         tem_bloco_f = 'F' in blocos_info['blocos_encontrados']
                         tem_bloco_i = 'I' in blocos_info['blocos_encontrados']
+                        tem_bloco_p = 'P' in blocos_info['blocos_encontrados']
                         
-                        if tem_bloco_0 or tem_bloco_1 or tem_bloco_a or tem_bloco_c or tem_bloco_d or tem_bloco_f or tem_bloco_i:
-                            logger.info(f"Validando registros dos blocos 0, 1, A, C, D, F e I do arquivo '{nome_arquivo}'")
+                        if tem_bloco_0 or tem_bloco_1 or tem_bloco_a or tem_bloco_c or tem_bloco_d or tem_bloco_f or tem_bloco_i or tem_bloco_p:
+                            logger.info(f"Validando registros dos blocos 0, 1, A, C, D, F, I e P do arquivo '{nome_arquivo}'")
                             validacoes = validar_registros_blocos_0_1(conteudo)
                             arquivo_info['validacoes'] = {
                                 'bloco_0': validacoes['bloco_0'],
@@ -1056,6 +1102,7 @@ def processar_zip_arquivos(zip_path):
                                 'bloco_d': validacoes.get('bloco_d', {}),
                                 'bloco_f': validacoes.get('bloco_f', {}),
                                 'bloco_i': validacoes.get('bloco_i', {}),
+                                'bloco_p': validacoes.get('bloco_p', {}),
                                 'total_validacoes': validacoes['total_validacoes'],
                                 'registros_validados': validacoes['registros_validados']
                             }
@@ -1068,6 +1115,7 @@ def processar_zip_arquivos(zip_path):
                                 'bloco_d': {},
                                 'bloco_f': {},
                                 'bloco_i': {},
+                                'bloco_p': {},
                                 'total_validacoes': 0,
                                 'registros_validados': 0
                             }
