@@ -1,0 +1,1494 @@
+{
+    "versoes": [
+        {
+            "versao": "2.0.0",
+            "data_criacao": "2009-12",
+            "caminho_arquivo": "manuais/v2.0.0.pdf",
+            "blocos": [
+                {
+                    "bloco": "0",
+                    "paginas": "10-24"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "24-70"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "70-101"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "101-116"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "116-122"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "122-123"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "123-137"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "138-139"
+                }
+            ]
+        },
+        {
+            "versao": "2.0.1",
+            "data_criacao": "2010-05",
+            "caminho_arquivo": "manuais/v2.0.1.pdf",
+            "blocos": [
+                {
+                    "bloco": "0",
+                    "paginas": "9-22"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "22-70"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "70-101"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "101-116"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "117-123"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "123-124"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "125-139"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "139-140"
+                }
+            ]
+        },
+        {
+            "versao": "2.0.2",
+            "data_criacao": "2010-09",
+            "caminho_arquivo": "manuais/v2.0.2.pdf",
+            "blocos": [
+                {
+                    "bloco": "0",
+                    "paginas": "11-24"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "24-71"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "71-102"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "102-117"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "118-124"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "124-126"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "126-146"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "146-148"
+                }
+            ]
+        },
+        {
+            "versao": "2.0.3",
+            "data_criacao": "2010-12",
+            "caminho_arquivo": "manuais/v2.0.3.pdf",
+            "blocos": [
+                {
+                    "bloco": "0",
+                    "paginas": "11-24"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "24-71"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "71-102"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "102-118"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "119-125"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "125-127"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "128-147"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "147-149"
+                }
+            ]
+        },
+        {
+            "versao": "2.0.4",
+            "data_criacao": "2011-03",
+            "caminho_arquivo": "manuais/v2.0.4.pdf",
+            "blocos": [
+                {
+                    "bloco": "0",
+                    "paginas": "11-24"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "24-76"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "76-107"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "107-122"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "123-129"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "129-131"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "132-151"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "151-153"
+                }
+            ]
+        },
+        {
+            "versao": "2.0.5",
+            "data_criacao": "2011-05",
+            "caminho_arquivo": "manuais/v2.0.5.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "11-24"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "24-76"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "76-108"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "108-123"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "124-130"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "130-132"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "133-152"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "152-154"
+                }
+            ]
+        },
+        {
+            "versao": "2.0.6",
+            "data_criacao": "2011-09",
+            "caminho_arquivo": "manuais/v2.0.6.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "11-24"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "24-77"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "77-109"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "109-124"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "125-131"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "131-133"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "134-154"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "154-155"
+                }
+            ]
+        },
+        {
+            "versao": "2.0.7",
+            "data_criacao": "2011-12",
+            "caminho_arquivo": "manuais/v2.0.7.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "16-29"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "29-81"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "81-114"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "114-130"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "131-136"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "136-140"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "141-163"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "163-164"
+                }
+            ]
+        },
+        {
+            "versao": "2.0.8",
+            "data_criacao": "2012-03",
+            "caminho_arquivo": "manuais/v2.0.8.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "16-29"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "29-81"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "81-115"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "115-130"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "131-137"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "137-140"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "141-163"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "163-164"
+                }
+            ]
+        },
+        {
+            "versao": "2.0.9",
+            "data_criacao": "2012-05",
+            "caminho_arquivo": "manuais/v2.0.9.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "16-29"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "29-81"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "81-115"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "115-130"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "131-137"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "137-140"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "141-163"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "163-164"
+                }
+            ]
+        },
+        {
+            "versao": "2.0.10",
+            "data_criacao": "2012-06",
+            "caminho_arquivo": "manuais/v2.0.10.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "16-29"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "29-81"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "81-114"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "114-130"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "131-137"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "137-140"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "141-163"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "163-164"
+                }
+            ]
+        },
+        {
+            "versao": "2.0.12",
+            "data_criacao": "2013-03",
+            "caminho_arquivo": "manuais/v2.0.12.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "15-29"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "29-82"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "82-117"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "117-133"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "133-140"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "140-142"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "143-165"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "166-167"
+                }
+            ]
+        },
+        {
+            "versao": "2.0.13",
+            "data_criacao": "2013-09",
+            "caminho_arquivo": "manuais/v2.0.13.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "15-29"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "29-83"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "83-118"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "118-134"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "134-140"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "140-143"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "143-165"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "166-168"
+                }
+            ]
+        },
+        {
+            "versao": "2.0.14",
+            "data_criacao": "2014-03",
+            "caminho_arquivo": "manuais/v2.0.14.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "17-32"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "32-86"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "86-121"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "121-137"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "137-143"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "143-152"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "152-175"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "175-176"
+                }
+            ]
+        },
+        {
+            "versao": "2.0.15",
+            "data_criacao": "2014-12",
+            "caminho_arquivo": "manuais/v2.0.15.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "17-32"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "32-86"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "87-122"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "123-139"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "139-146"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "146-155"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "155-179"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "179-180"
+                }
+            ]
+        },
+        {
+            "versao": "2.0.16",
+            "data_criacao": "2015-03",
+            "caminho_arquivo": "manuais/v2.0.16.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "18-33"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "33-87"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "88-123"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "123-140"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "140-146"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "146-155"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "156-179"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "179-181"
+                }
+            ]
+        },
+        {
+            "versao": "2.0.17",
+            "data_criacao": "2015-09",
+            "caminho_arquivo": "manuais/v2.0.17.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "18-33"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "33-88"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "88-123"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "124-140"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "140-146"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "146-157"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "157-181"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "181-182"
+                }
+            ]
+        },
+        {
+            "versao": "2.0.19",
+            "data_criacao": "2016-05",
+            "caminho_arquivo": "manuais/v2.0.19.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "23-38"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "38-97"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "97-133"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "133-159"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "160-166"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "166-183"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "183-207"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "207-209"
+                }
+            ]
+        },
+        {
+            "versao": "2.0.20",
+            "data_criacao": "2017-01",
+            "caminho_arquivo": "manuais/v2.0.20.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "23-38"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "38-97"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "97-134"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "134-160"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "161-167"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "167-183"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "184-208"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "208-209"
+                }
+            ]
+        },
+        {
+            "versao": "2.0.22",
+            "data_criacao": "2018-01",
+            "caminho_arquivo": "manuais/v2.0.22.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "25-40"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "40-100"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "100-138"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "138-166"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "166-173"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "173-193"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "193-218"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "218-219"
+                }
+            ]
+        },
+        {
+            "versao": "3.0.1",
+            "data_criacao": "2019-01",
+            "caminho_arquivo": "manuais/v3.0.1.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "24-54"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "55-116"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "116-154"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "154-183"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "183-190"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "190-211"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "212-241"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "241-242"
+                }
+            ]
+        },
+        {
+            "versao": "3.0.2",
+            "data_criacao": "2019-05",
+            "caminho_arquivo": "manuais/v3.0.2.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "24-54"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "54-140"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "140-179"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "179-208"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "208-215"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "215-237"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "237-267"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "267-269"
+                }
+            ]
+        },
+        {
+            "versao": "3.0.3",
+            "data_criacao": "2019-10",
+            "caminho_arquivo": "manuais/v3.0.3.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "24-54"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "54-145"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "145-183"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "183-211"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "211-218"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "218-239"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "239-270"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "270-271"
+                }
+            ]
+        },
+        {
+            "versao": "3.0.4",
+            "data_criacao": "2020-06",
+            "caminho_arquivo": "manuais/v3.0.4.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "26-58"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "58-161"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "161-202"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "202-232"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "232-241"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "241-263"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "263-296"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "296-298"
+                }
+            ]
+        },
+        {
+            "versao": "3.0.5",
+            "data_criacao": "2020-08",
+            "caminho_arquivo": "manuais/v3.0.5.pdf",
+               "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "26-58"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "58-162"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "162-203"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "203-233"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "234-242"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "242-264"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "264-298"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "298-299"
+                }
+            ]
+        },
+        {
+            "versao": "3.0.6",
+            "data_criacao": "2020-11",
+            "caminho_arquivo": "manuais/v3.0.6.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "26-58"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "58-164"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "164-206"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "206-236"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "236-244"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "244-267"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "267-302"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "302-303"
+                }
+            ]
+        },
+        {
+            "versao": "3.0.7",
+            "data_criacao": "2021-08",
+            "caminho_arquivo": "manuais/v3.0.7.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "26-58"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "58-161"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "161-201"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "201-231"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "231-239"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "239-261"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "261-294"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "294-296"
+                }
+            ]
+        },
+        {
+            "versao": "3.0.8",
+            "data_criacao": "2021-11",
+            "caminho_arquivo": "manuais/v3.0.8.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "26-58"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "58-161"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "161-201"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "201-231"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "231-239"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "239-261"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "261-294"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "294-296"
+                }
+            ]
+        },
+        {
+            "versao": "3.0.9",
+            "data_criacao": "2022-02",
+            "caminho_arquivo": "manuais/v3.0.9.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "27-60"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "60-164"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "164-205"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "205-234"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "234-243"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "243-268"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "268-302"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "302-304"
+                }
+            ]
+        },
+        {
+            "versao": "3.1.0",
+            "data_criacao": "2022-05",
+            "caminho_arquivo": "manuais/v3.1.0.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "28-61"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "61-169"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "169-220"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "220-250"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "250-258"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "258-282"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "283-317"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "317-319"
+                }
+            ]
+        },
+        {
+            "versao": "3.1.1",
+            "data_criacao": "2022-08",
+            "caminho_arquivo": "manuais/v3.1.1.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "28-61"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "61-169"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "169-220"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "220-250"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "250-258"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "258-282"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "283-317"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "317-319"
+                }
+            ]
+        },
+        {
+            "versao": "3.1.2",
+            "data_criacao": "2022-11",
+            "caminho_arquivo": "manuais/v3.1.2.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "28-61"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "61-169"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "170-220"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "220-249"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "250-258"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "258-282"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "283-317"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "317-318"
+                }
+            ]
+        },
+        {
+            "versao": "3.1.3",
+            "data_criacao": "2023-03",
+            "caminho_arquivo": "manuais/v3.1.3.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "28-61"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "61-169"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "170-220"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "220-250"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "250-258"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "258-282"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "283-317"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "317-318"
+                }
+            ]
+        },
+        {
+            "versao": "3.1.4",
+            "data_criacao": "2023-05",
+            "caminho_arquivo": "manuais/v3.1.4.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "28-61"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "61-169"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "170-220"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "221-250"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "250-258"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "259-282"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "283-318"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "318-320"
+                }
+            ]
+        },
+        {
+            "versao": "3.1.5",
+            "data_criacao": "2023-08",
+            "caminho_arquivo": "manuais/v3.1.5.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "28-61"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "61-171"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "171-222"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "222-252"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "252-260"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "260-285"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "285-320"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "320-322"
+                }
+            ]
+        },
+        {
+            "versao": "3.1.6",
+            "data_criacao": "2023-11",
+            "caminho_arquivo": "manuais/v3.1.6.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "28-62"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "62-171"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "171-222"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "222-252"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "252-261"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "261-285"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "286-321"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "321-322"
+                }
+            ]
+        },
+        {
+            "versao": "3.1.7",
+            "data_criacao": "2024-08",
+            "caminho_arquivo": "manuais/v3.1.7.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "28-62"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "62-171"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "171-222"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "222-252"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "252-260"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "260-285"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "285-320"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "320-321"
+                }
+            ]
+        },
+        {
+            "versao": "3.1.8",
+            "data_criacao": "2024-10",
+            "caminho_arquivo": "manuais/v3.1.8.pdf",
+            "blocos" : [
+                {
+                    "bloco": "0",
+                    "paginas": "28-47"
+                },
+                {
+                    "bloco": "B",
+                    "paginas": "47-62"
+                },
+                {
+                    "bloco": "C",
+                    "paginas": "62-171"
+                },
+                {
+                    "bloco": "D",
+                    "paginas": "171-222"
+                },
+                {
+                    "bloco": "E",
+                    "paginas": "222-252"
+                },
+                {
+                    "bloco": "G",
+                    "paginas": "252-260"
+                },
+                {
+                    "bloco": "H",
+                    "paginas": "260-265"
+                },
+                {
+                    "bloco": "K",
+                    "paginas": "265-285"
+                },
+                {
+                    "bloco": "1",
+                    "paginas": "285-320"
+                },
+                {
+                    "bloco": "9",
+                    "paginas": "320-321"
+                }
+            ]
+        }
+    ]
+}

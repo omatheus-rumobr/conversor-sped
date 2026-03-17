@@ -1,0 +1,60 @@
+{
+	"versoes": [
+		{
+			"versao": "1.35",
+			"caminho_arquivo": "manuais/v1.35.docx",
+			"blocos": [
+                {
+                    "bloco": "0",
+                    "inicio": "BLOCO 0: Abertura, Identificação e Referências.",
+                    "fim": "!!!!!"
+                },
+                {
+                    "bloco": "A",
+                    "inicio": "BLOCO A: Documentos Fiscais - Serviços (Sujeitos ao ISS)",
+                    "fim": "@@@@@"
+                },
+                {
+                    "bloco": "C",
+                    "inicio": "BLOCO C: Documentos Fiscais – I - Mercadorias (ICMS/IPI)",
+                    "fim": "#####"
+                },
+                {
+                    "bloco": "D",
+                    "inicio": "BLOCO D: Documentos Fiscais – II - Serviços (ICMS)",
+                    "fim": "$$$$$"
+                },
+                {
+                    "bloco": "F",
+                    "inicio": "BLOCO F: Demais Documentos e Operações",
+                    "fim": "%%%%%"
+                },
+                {
+                    "bloco": "I",
+                    "inicio": "BLOCO I: Operações das Instituições Financeiras, Seguradoras, Entidades de Previdencia Privada, Operadoras de Planos de Assistência à Saúde e Demais Pessoas Jurídicas Referidas nos §§ 6º, 8º e 9º do art. 3º da lei nº 9.718/98.",
+                    "fim": "&&&&&"
+                },
+                {
+                    "bloco": "M",
+                    "inicio": "BLOCO M – Apuração da Contribuição e Crédito do PIS/Pasep e da Cofins",
+                    "fim": "+++++"
+                },
+                {
+                    "bloco": "P",
+                    "inicio": "BLOCO P: Apuração da Contribuição Previdenciária Sobre a Receita Bruta (CPRB)",
+                    "fim": "?????"
+                },
+				{
+					"bloco": "1",
+					"inicio": "BLOCO 1: Complemento da Escrituração – Controle de Saldos de Créditos e de Retenções, Operações Extemporâneas e Outras Informações",
+                    "fim": "/////"
+				},
+				{
+					"bloco": "9",
+					"inicio": "BLOCO 9: Controle e Encerramento do Arquivo Digital",
+                    "fim": "-----"
+				}
+            ]
+		}
+	]
+}

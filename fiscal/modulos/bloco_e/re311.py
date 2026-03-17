@@ -1,0 +1,233 @@
+import json
+from datetime import datetime
+
+
+def validar_valor_numerico(valor_str, decimais=2, obrigatorio=False, positivo=False, nao_negativo=False):
+    """
+    Valida um valor numérico com precisão decimal específica.
+
+    Args:
+        valor_str: String com o valor numérico
+        decimais: Número máximo de casas decimais permitidas
+        obrigatorio: Se True, o campo não pode estar vazio
+        positivo: Se True, o valor deve ser maior que 0
+        nao_negativo: Se True, o valor deve ser maior ou igual a 0
+
+    Returns:
+        tuple: (True/False, valor float ou None, mensagem de erro ou None)
+    """
+    if valor_str is None:
+        valor_str = ""
+
+    if not valor_str:
+        if obrigatorio:
+            return False, None, "Campo obrigatório não preenchido"
+        return True, 0.0, None
+
+    try:
+        valor_float = float(valor_str)
+
+        # Verifica precisão decimal (quando houver ponto decimal)
+        partes_decimal = valor_str.split(".")
+        if len(partes_decimal) == 2 and len(partes_decimal[1]) > decimais:
+            return False, None, f"Valor com mais de {decimais} casas decimais"
+
+        if positivo and valor_float <= 0:
+            return False, None, "Valor deve ser maior que zero"
+        if nao_negativo and valor_float < 0:
+            return False, None, "Valor não pode ser negativo"
+
+        return True, valor_float, None
+    except ValueError:
+        return False, None, "Valor não é numérico válido"
+
+
+def _validar_data(data_str):
+    """
+    Valida se a data está no formato ddmmaaaa e se é uma data válida.
+    """
+    if not data_str or len(data_str) != 8 or not data_str.isdigit():
+        return False, None
+    try:
+        dia = int(data_str[:2])
+        mes = int(data_str[2:4])
+        ano = int(data_str[4:8])
+        return True, datetime(ano, mes, dia)
+    except ValueError:
+        return False, None
+
+
+def _determinar_versao_e311(dt_ini_periodo=None):
+    """
+    Determina qual versão do E311 usar baseado na data do período.
+    
+    Args:
+        dt_ini_periodo: Data inicial do período (ddmmaaaa) ou datetime
+        
+    Returns:
+        bool: True se versão nova (>= 2017-01-01), False se versão antiga (<= 2016-12-31)
+    """
+    if dt_ini_periodo is None:
+        # Por padrão, assume versão nova (mais recente)
+        return True
+    
+    # Converte string para datetime se necessário
+    if isinstance(dt_ini_periodo, str):
+        ok, dt_obj = _validar_data(dt_ini_periodo)
+        if not ok:
+            return True  # Por padrão, assume versão nova
+        dt_ini_periodo = dt_obj
+    
+    # Data de corte: 01/01/2017
+    data_corte = datetime(2017, 1, 1)
+    return dt_ini_periodo >= data_corte
+
+
+def _processar_linha_e311(linha, dt_ini_periodo=None):
+    """
+    Processa uma única linha do registro E311 e retorna um dicionário.
+
+    Args:
+        linha: String com uma linha do SPED no formato |E311|COD_AJ_APUR|DESCR_COMPL_AJ|VL_AJ_APUR|
+        dt_ini_periodo: Data inicial do período (ddmmaaaa) para determinar qual versão usar (opcional)
+
+    Returns:
+        dict: Dicionário com os campos validados contendo título e valor, ou None se inválido
+    """
+    if not linha or not isinstance(linha, str):
+        return None
+
+    linha = linha.strip()
+    if not linha:
+        return None
+
+    partes = linha.split("|")
+    if partes and not partes[0]:
+        partes = partes[1:]
+    if partes and not partes[-1]:
+        partes = partes[:-1]
+
+    if len(partes) < 1:
+        return None
+
+    reg = partes[0].strip() if partes else ""
+    if reg != "E311":
+        return None
+
+    def obter_campo(indice):
+        if indice < len(partes):
+            valor = partes[indice].strip()
+            if valor == "-":
+                return ""
+            return valor if valor else ""
+        return ""
+
+    cod_aj_apur = obter_campo(1)
+    descr_compl_aj = obter_campo(2)
+    vl_aj_apur = obter_campo(3)
+
+    # COD_AJ_APUR: obrigatório, tam 008*
+    # Validação de tabela 5.1.1 depende da UF/tabela externa (não validamos aqui)
+    if not cod_aj_apur:
+        return None
+    if len(cod_aj_apur) != 8:
+        return None
+
+    # Determina qual versão usar
+    versao_nova = _determinar_versao_e311(dt_ini_periodo)
+
+    # Validação do terceiro caractere baseado na versão
+    if len(cod_aj_apur) < 3:
+        return None
+
+    if versao_nova:
+        # Versão nova (a partir de 01/01/2017): terceiro caractere deve ser "2" (DIFAL) ou "3" (FCP)
+        if cod_aj_apur[2] not in ["2", "3"]:
+            return None
+    else:
+        # Versão antiga (até 31/12/2016): terceiro caractere deve ser "2" (DIFAL/FCP combinado)
+        if cod_aj_apur[2] != "2":
+            return None
+
+    # Regra: quarto caractere deve estar entre 0 e 5 (válido para ambas versões)
+    if len(cod_aj_apur) < 4 or cod_aj_apur[3] not in ["0", "1", "2", "3", "4", "5"]:
+        return None
+
+    # DESCR_COMPL_AJ: opcional condicional (se informado, não pode ser só espaços)
+    if descr_compl_aj and not descr_compl_aj.strip():
+        return None
+
+    # VL_AJ_APUR: obrigatório, numérico com 2 decimais, maior que zero (positivo)
+    vl_aj_apur_ok, vl_aj_apur_float, _ = validar_valor_numerico(vl_aj_apur, decimais=2, obrigatorio=True, positivo=True)
+    if not vl_aj_apur_ok:
+        return None
+
+    def fmt_moeda(v):
+        return f"R$ {v:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+
+    # Descrição do tipo baseado no quarto caractere
+    descricao_tipo = {
+        "0": "Outros débitos",
+        "1": "Estorno de créditos",
+        "2": "Outros créditos",
+        "3": "Estorno de débitos",
+        "4": "Deduções do imposto apurado",
+        "5": "Débitos Especiais",
+    }.get(cod_aj_apur[3], "")
+
+    # Descrição adicional baseada no terceiro caractere (versão nova)
+    descricao_tipo_ajuste = ""
+    if versao_nova:
+        if cod_aj_apur[2] == "2":
+            descricao_tipo_ajuste = "ICMS Diferencial de Alíquota (DIFAL)"
+        elif cod_aj_apur[2] == "3":
+            descricao_tipo_ajuste = "Fundo de Combate à Pobreza (FCP)"
+    else:
+        descricao_tipo_ajuste = "ICMS Diferencial de Alíquota e/ou FCP"
+
+    return {
+        "REG": {"titulo": "Registro", "valor": reg},
+        "COD_AJ_APUR": {
+            "titulo": "Código do ajuste da apuração e dedução, conforme a Tabela indicada no item 5.1.1",
+            "valor": cod_aj_apur,
+            "descricao": descricao_tipo,
+            "tipo_ajuste": descricao_tipo_ajuste,
+        },
+        "DESCR_COMPL_AJ": {"titulo": "Descrição complementar do ajuste da apuração", "valor": descr_compl_aj if descr_compl_aj else ""},
+        "VL_AJ_APUR": {"titulo": "Valor do ajuste da apuração", "valor": vl_aj_apur, "valor_formatado": fmt_moeda(vl_aj_apur_float)},
+    }
+
+
+def validar_e311(linhas, dt_ini_periodo=None):
+    """
+    Valida uma ou mais linhas do registro E311 do SPED EFD Fiscal.
+
+    Args:
+        linhas: String com uma linha, string com múltiplas linhas separadas por \\n,
+                ou lista de strings. Cada linha deve estar no formato |E311|COD_AJ_APUR|DESCR_COMPL_AJ|VL_AJ_APUR|
+        dt_ini_periodo: Data inicial do período de apuração (ddmmaaaa) para determinar qual versão usar (opcional)
+
+    Returns:
+        String JSON com array de objetos contendo os campos validados.
+        Retorna "[]" se nenhuma linha for válida.
+    """
+    if not linhas:
+        return json.dumps([], ensure_ascii=False, indent=2)
+
+    if isinstance(linhas, str):
+        if "\n" in linhas:
+            linhas_para_processar = [l.strip() for l in linhas.split("\n") if l.strip()]
+        else:
+            linhas_para_processar = [linhas.strip()] if linhas.strip() else []
+    elif isinstance(linhas, list):
+        linhas_para_processar = [l.strip() if isinstance(l, str) else str(l).strip() for l in linhas if l]
+    else:
+        linhas_para_processar = [str(linhas).strip()] if str(linhas).strip() else []
+
+    resultados = []
+    for l in linhas_para_processar:
+        r = _processar_linha_e311(l, dt_ini_periodo=dt_ini_periodo)
+        if r is not None:
+            resultados.append(r)
+
+    return json.dumps(resultados, ensure_ascii=False, indent=2)
