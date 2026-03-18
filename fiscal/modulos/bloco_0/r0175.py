@@ -176,7 +176,7 @@ def _processar_linha_0175(linha):
     return resultado
 
 
-def validar_0175(linhas):
+def validar_0175_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro 0175 do SPED EFD Fiscal.
     

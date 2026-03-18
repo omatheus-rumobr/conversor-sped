@@ -94,7 +94,7 @@ def _processar_linha_c101(linha):
     return resultado
 
 
-def validar_c101(linhas):
+def validar_c101_fiscal(linhas):
     """
     Valida e processa uma ou múltiplas linhas do registro C101 (Informação Complementar dos Documentos Fiscais
     quando das Operações Interestaduais Destinadas a Consumidor Final Não Contribuinte EC 87/15) do SPED.

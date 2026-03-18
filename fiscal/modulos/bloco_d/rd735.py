@@ -89,7 +89,7 @@ def _processar_linha_d735(linha):
     return resultado
 
 
-def validar_d735(linhas):
+def validar_d735_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro D735 do SPED EFD Fiscal.
     

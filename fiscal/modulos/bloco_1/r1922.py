@@ -119,7 +119,7 @@ def _processar_linha_1922(linha):
     return resultado
 
 
-def validar_1922(linhas):
+def validar_1922_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro 1922 do SPED EFD Fiscal.
     

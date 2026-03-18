@@ -82,7 +82,7 @@ def _processar_linha_0990(linha):
     return resultado
 
 
-def validar_0990(linhas):
+def validar_0990_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro 0990 do SPED EFD Fiscal.
     

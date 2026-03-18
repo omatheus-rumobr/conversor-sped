@@ -81,7 +81,7 @@ def _processar_linha_0001(linha):
     return resultado
 
 
-def validar_0001(linhas):
+def validar_0001_fiscal(linhas):
     """
     Valida e processa uma ou múltiplas linhas do registro 0001 (Abertura do Bloco 0) do SPED.
     

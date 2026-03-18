@@ -319,7 +319,7 @@ def _processar_linha_1980(linha):
     return resultado
 
 
-def validar_1980(linhas):
+def validar_1980_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro 1980 do SPED EFD Fiscal.
     

@@ -162,7 +162,7 @@ def _processar_linha_c190(linha):
     return resultado
 
 
-def validar_c190(linhas):
+def validar_c190_fiscal(linhas):
     """
     Valida e processa uma ou múltiplas linhas do registro C190 (Registro Analítico do Documento) do SPED.
     

@@ -267,7 +267,7 @@ def _processar_linha_e210(linha):
     }
 
 
-def validar_e210(linhas):
+def validar_e210_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro E210 do SPED EFD Fiscal.
 

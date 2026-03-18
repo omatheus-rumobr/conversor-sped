@@ -487,7 +487,7 @@ def _processar_linha_d180(linha):
     return resultado
 
 
-def validar_d180(linhas):
+def validar_d180_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro D180 do SPED EFD Fiscal.
     

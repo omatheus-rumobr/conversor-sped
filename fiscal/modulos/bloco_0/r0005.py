@@ -142,7 +142,7 @@ def _processar_linha_0005(linha):
     return resultado
 
 
-def validar_0005(linhas):
+def validar_0005_fiscal(linhas):
     """
     Valida e processa uma ou múltiplas linhas do registro 0005 (Dados Complementares da Entidade) do SPED.
     

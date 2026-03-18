@@ -77,7 +77,7 @@ def _processar_linha_d411(linha):
     return resultado
 
 
-def validar_d411(linhas):
+def validar_d411_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro D411 do SPED EFD Fiscal.
     

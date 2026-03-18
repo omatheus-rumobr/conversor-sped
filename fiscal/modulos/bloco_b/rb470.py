@@ -248,7 +248,7 @@ def _processar_linha_b470(linha):
     return resultado
 
 
-def validar_b470(linhas):
+def validar_b470_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro B470 do SPED EFD Fiscal.
     

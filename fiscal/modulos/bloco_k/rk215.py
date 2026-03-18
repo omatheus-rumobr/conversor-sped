@@ -112,7 +112,7 @@ def _processar_linha_k215(linha, cod_item_ori_k210=None):
     }
 
 
-def validar_k215(linhas, cod_item_ori_k210=None):
+def validar_k215_fiscal(linhas, cod_item_ori_k210=None):
     """
     Valida uma ou mais linhas do registro K215 do SPED EFD Fiscal.
 

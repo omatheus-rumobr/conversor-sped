@@ -264,7 +264,7 @@ def _processar_linha_d696(linha):
     return resultado
 
 
-def validar_d696(linhas):
+def validar_d696_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro D696 do SPED EFD Fiscal.
     

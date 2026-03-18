@@ -219,7 +219,7 @@ def _processar_linha_0150(linha):
     return resultado
 
 
-def validar_0150(linhas):
+def validar_0150_fiscal(linhas):
     """
     Valida e processa uma ou múltiplas linhas do registro 0150 (Tabela de Cadastro do Participante) do SPED.
     

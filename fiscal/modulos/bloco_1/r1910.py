@@ -128,7 +128,7 @@ def _processar_linha_1910(linha):
     return resultado
 
 
-def validar_1910(linhas):
+def validar_1910_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro 1910 do SPED EFD Fiscal.
     

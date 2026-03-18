@@ -213,7 +213,7 @@ def _processar_linha_d730(linha):
     return resultado
 
 
-def validar_d730(linhas):
+def validar_d730_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro D730 do SPED EFD Fiscal.
     

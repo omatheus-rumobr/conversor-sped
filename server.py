@@ -1,14 +1,3 @@
-import os
-import zipfile
-import tempfile
-import io
-import json
-from pathlib import Path
-from flask import Flask, request, send_file, jsonify
-from loguru import logger
-from flasgger import Swagger
-from werkzeug.utils import secure_filename
-
 from contribuicoes.modulos.bloco_0.r0000 import validar_0000
 from contribuicoes.modulos.bloco_0.r0035 import validar_0035
 from contribuicoes.modulos.bloco_0.r0100 import validar_0100
@@ -50,6 +39,11 @@ from contribuicoes.modulos.bloco_1.r1700 import validar_1700
 from contribuicoes.modulos.bloco_1.r1800 import validar_1800
 from contribuicoes.modulos.bloco_1.r1809 import validar_1809
 from contribuicoes.modulos.bloco_1.r1900 import validar_1900
+
+from contribuicoes.modulos.bloco_9.r9001 import validar_9001
+from contribuicoes.modulos.bloco_9.r9900 import validar_9900
+from contribuicoes.modulos.bloco_9.r9990 import validar_9990
+from contribuicoes.modulos.bloco_9.r9999 import validar_9999
 
 from contribuicoes.modulos.bloco_a.ra010 import validar_a010
 from contribuicoes.modulos.bloco_a.ra100 import validar_a100
@@ -159,6 +153,40 @@ from contribuicoes.modulos.bloco_i.ri299 import validar_i299
 from contribuicoes.modulos.bloco_i.ri300 import validar_i300
 from contribuicoes.modulos.bloco_i.ri399 import validar_i399
 
+from contribuicoes.modulos.bloco_m.rm001 import validar_m001
+from contribuicoes.modulos.bloco_m.rm100 import validar_m100
+from contribuicoes.modulos.bloco_m.rm105 import validar_m105
+from contribuicoes.modulos.bloco_m.rm110 import validar_m110
+from contribuicoes.modulos.bloco_m.rm115 import validar_m115
+from contribuicoes.modulos.bloco_m.rm200 import validar_m200
+from contribuicoes.modulos.bloco_m.rm205 import validar_m205
+from contribuicoes.modulos.bloco_m.rm210 import validar_m210
+from contribuicoes.modulos.bloco_m.rm211 import validar_m211
+from contribuicoes.modulos.bloco_m.rm215 import validar_m215
+from contribuicoes.modulos.bloco_m.rm220 import validar_m220
+from contribuicoes.modulos.bloco_m.rm225 import validar_m225
+from contribuicoes.modulos.bloco_m.rm230 import validar_m230
+from contribuicoes.modulos.bloco_m.rm300 import validar_m300
+from contribuicoes.modulos.bloco_m.rm350 import validar_m350
+from contribuicoes.modulos.bloco_m.rm400 import validar_m400
+from contribuicoes.modulos.bloco_m.rm410 import validar_m410
+from contribuicoes.modulos.bloco_m.rm500 import validar_m500
+from contribuicoes.modulos.bloco_m.rm505 import validar_m505
+from contribuicoes.modulos.bloco_m.rm510 import validar_m510
+from contribuicoes.modulos.bloco_m.rm515 import validar_m515
+from contribuicoes.modulos.bloco_m.rm600 import validar_m600
+from contribuicoes.modulos.bloco_m.rm605 import validar_m605
+from contribuicoes.modulos.bloco_m.rm610 import validar_m610
+from contribuicoes.modulos.bloco_m.rm611 import validar_m611
+from contribuicoes.modulos.bloco_m.rm615 import validar_m615
+from contribuicoes.modulos.bloco_m.rm620 import validar_m620
+from contribuicoes.modulos.bloco_m.rm625 import validar_m625
+from contribuicoes.modulos.bloco_m.rm630 import validar_m630
+from contribuicoes.modulos.bloco_m.rm700 import validar_m700
+from contribuicoes.modulos.bloco_m.rm800 import validar_m800
+from contribuicoes.modulos.bloco_m.rm810 import validar_m810
+from contribuicoes.modulos.bloco_m.rm990 import validar_m990
+
 from contribuicoes.modulos.bloco_p.rp010 import validar_p010
 from contribuicoes.modulos.bloco_p.rp100 import validar_p100
 from contribuicoes.modulos.bloco_p.rp110 import validar_p110
@@ -166,6 +194,255 @@ from contribuicoes.modulos.bloco_p.rp119 import validar_p199
 from contribuicoes.modulos.bloco_p.rp200 import validar_p200
 from contribuicoes.modulos.bloco_p.rp210 import validar_p210
 
+from fiscal.modulos.bloco_0.r0000 import validar_0000_fiscal
+from fiscal.modulos.bloco_0.r0001 import validar_0001_fiscal
+from fiscal.modulos.bloco_0.r0002 import validar_0002_fiscal
+from fiscal.modulos.bloco_0.r0005 import validar_0005_fiscal
+from fiscal.modulos.bloco_0.r0015 import validar_0015_fiscal
+from fiscal.modulos.bloco_0.r0100 import validar_0100_fiscal
+from fiscal.modulos.bloco_0.r0150 import validar_0150_fiscal
+from fiscal.modulos.bloco_0.r0175 import validar_0175_fiscal
+from fiscal.modulos.bloco_0.r0190 import validar_0190_fiscal
+from fiscal.modulos.bloco_0.r0200 import validar_0200_fiscal
+from fiscal.modulos.bloco_0.r0205 import validar_0205_fiscal
+from fiscal.modulos.bloco_0.r0206 import validar_0206_fiscal
+from fiscal.modulos.bloco_0.r0210 import validar_0210_fiscal
+from fiscal.modulos.bloco_0.r0220 import validar_0220_fiscal
+from fiscal.modulos.bloco_0.r0221 import validar_0221_fiscal
+from fiscal.modulos.bloco_0.r0300 import validar_0300_fiscal
+from fiscal.modulos.bloco_0.r0305 import validar_0305_fiscal
+from fiscal.modulos.bloco_0.r0400 import validar_0400_fiscal
+from fiscal.modulos.bloco_0.r0450 import validar_0450_fiscal
+from fiscal.modulos.bloco_0.r0460 import validar_0460_fiscal
+from fiscal.modulos.bloco_0.r0500 import validar_0500_fiscal
+from fiscal.modulos.bloco_0.r0600 import validar_0600_fiscal
+from fiscal.modulos.bloco_0.r0990 import validar_0990_fiscal
+
+from fiscal.modulos.bloco_1.r1010 import validar_1010_fiscal
+from fiscal.modulos.bloco_1.r1100 import validar_1100_fiscal
+from fiscal.modulos.bloco_1.r1105 import validar_1105_fiscal
+from fiscal.modulos.bloco_1.r1110 import validar_1110_fiscal
+from fiscal.modulos.bloco_1.r1200 import validar_1200_fiscal
+from fiscal.modulos.bloco_1.r1210 import validar_1210_fiscal
+from fiscal.modulos.bloco_1.r1250 import validar_1250_fiscal
+from fiscal.modulos.bloco_1.r1255 import validar_1255_fiscal
+from fiscal.modulos.bloco_1.r1300 import validar_1300_fiscal
+from fiscal.modulos.bloco_1.r1310 import validar_1310_fiscal
+from fiscal.modulos.bloco_1.r1320 import validar_1320_fiscal
+from fiscal.modulos.bloco_1.r1350 import validar_1350_fiscal
+from fiscal.modulos.bloco_1.r1360 import validar_1360_fiscal
+from fiscal.modulos.bloco_1.r1370 import validar_1370_fiscal
+from fiscal.modulos.bloco_1.r1390 import validar_1390_fiscal
+from fiscal.modulos.bloco_1.r1391 import validar_1391_fiscal
+from fiscal.modulos.bloco_1.r1400 import validar_1400_fiscal
+from fiscal.modulos.bloco_1.r1500 import validar_1500_fiscal
+from fiscal.modulos.bloco_1.r1510 import validar_1510_fiscal
+from fiscal.modulos.bloco_1.r1600 import validar_1600_fiscal
+from fiscal.modulos.bloco_1.r1601 import validar_1601_fiscal
+from fiscal.modulos.bloco_1.r1700 import validar_1700_fiscal
+from fiscal.modulos.bloco_1.r1710 import validar_1710_fiscal
+from fiscal.modulos.bloco_1.r1800 import validar_1800_fiscal
+from fiscal.modulos.bloco_1.r1900 import validar_1900_fiscal
+from fiscal.modulos.bloco_1.r1910 import validar_1910_fiscal
+from fiscal.modulos.bloco_1.r1920 import validar_1920_fiscal
+from fiscal.modulos.bloco_1.r1921 import validar_1921_fiscal
+from fiscal.modulos.bloco_1.r1922 import validar_1922_fiscal
+from fiscal.modulos.bloco_1.r1923 import validar_1923_fiscal
+from fiscal.modulos.bloco_1.r1925 import validar_1925_fiscal
+from fiscal.modulos.bloco_1.r1926 import validar_1926_fiscal
+from fiscal.modulos.bloco_1.r1960 import validar_1960_fiscal
+from fiscal.modulos.bloco_1.r1970 import validar_1970_fiscal
+from fiscal.modulos.bloco_1.r1975 import validar_1975_fiscal
+from fiscal.modulos.bloco_1.r1980 import validar_1980_fiscal
+from fiscal.modulos.bloco_1.r1990 import validar_1990_fiscal
+
+from fiscal.modulos.bloco_9.r9001 import validar_9001_fiscal
+from fiscal.modulos.bloco_9.r9990 import validar_9990_fiscal
+
+from fiscal.modulos.bloco_b.rb001 import validar_b001_fiscal
+from fiscal.modulos.bloco_b.rb020 import validar_b020_fiscal
+from fiscal.modulos.bloco_b.rb025 import validar_b025_fiscal
+from fiscal.modulos.bloco_b.rb030 import validar_b030_fiscal
+from fiscal.modulos.bloco_b.rb035 import validar_b035_fiscal
+from fiscal.modulos.bloco_b.rb350 import validar_b350_fiscal
+from fiscal.modulos.bloco_b.rb420 import validar_b420_fiscal
+from fiscal.modulos.bloco_b.rb460 import validar_b460_fiscal
+from fiscal.modulos.bloco_b.rb470 import validar_b470_fiscal
+from fiscal.modulos.bloco_b.rb500 import validar_b500_fiscal
+from fiscal.modulos.bloco_b.rb510 import validar_b510_fiscal
+from fiscal.modulos.bloco_b.rb990 import validar_b990_fiscal
+
+from fiscal.modulos.bloco_c.rc001 import validar_c001_fiscal
+from fiscal.modulos.bloco_c.rc100 import validar_c100_fiscal
+from fiscal.modulos.bloco_c.rc101 import validar_c101_fiscal
+from fiscal.modulos.bloco_c.rc105 import validar_c105_fiscal
+from fiscal.modulos.bloco_c.rc110 import validar_c110_fiscal
+from fiscal.modulos.bloco_c.rc111 import validar_c111_fiscal
+from fiscal.modulos.bloco_c.rc112 import validar_c112_fiscal
+from fiscal.modulos.bloco_c.rc113 import validar_c113_fiscal
+from fiscal.modulos.bloco_c.rc170 import validar_c170_fiscal
+from fiscal.modulos.bloco_c.rc190 import validar_c190_fiscal
+
+from fiscal.modulos.bloco_d.rd100 import validar_d100_fiscal
+from fiscal.modulos.bloco_d.rd101 import validar_d101_fiscal
+from fiscal.modulos.bloco_d.rd110 import validar_d110_fiscal
+from fiscal.modulos.bloco_d.rd120 import validar_d120_fiscal
+from fiscal.modulos.bloco_d.rd130 import validar_d130_fiscal
+from fiscal.modulos.bloco_d.rd140 import validar_d140_fiscal
+from fiscal.modulos.bloco_d.rd150 import validar_d150_fiscal
+from fiscal.modulos.bloco_d.rd160 import validar_d160_fiscal
+from fiscal.modulos.bloco_d.rd161 import validar_d161_fiscal
+from fiscal.modulos.bloco_d.rd162 import validar_d162_fiscal
+from fiscal.modulos.bloco_d.rd170 import validar_d170_fiscal
+from fiscal.modulos.bloco_d.rd180 import validar_d180_fiscal
+from fiscal.modulos.bloco_d.rd190 import validar_d190_fiscal
+from fiscal.modulos.bloco_d.rd195 import validar_d195_fiscal
+from fiscal.modulos.bloco_d.rd197 import validar_d197_fiscal
+from fiscal.modulos.bloco_d.rd300 import validar_d300_fiscal
+from fiscal.modulos.bloco_d.rd301 import validar_d301_fiscal
+from fiscal.modulos.bloco_d.rd310 import validar_d310_fiscal
+from fiscal.modulos.bloco_d.rd350 import validar_d350_fiscal
+from fiscal.modulos.bloco_d.rd355 import validar_d355_fiscal
+from fiscal.modulos.bloco_d.rd360 import validar_d360_fiscal
+from fiscal.modulos.bloco_d.rd365 import validar_d365_fiscal
+from fiscal.modulos.bloco_d.rd370 import validar_d370_fiscal
+from fiscal.modulos.bloco_d.rd390 import validar_d390_fiscal
+from fiscal.modulos.bloco_d.rd400 import validar_d400_fiscal
+from fiscal.modulos.bloco_d.rd410 import validar_d410_fiscal
+from fiscal.modulos.bloco_d.rd411 import validar_d411_fiscal
+from fiscal.modulos.bloco_d.rd420 import validar_d420_fiscal
+from fiscal.modulos.bloco_d.rd500 import validar_d500_fiscal
+from fiscal.modulos.bloco_d.rd510 import validar_d510_fiscal
+from fiscal.modulos.bloco_d.rd530 import validar_d530_fiscal
+from fiscal.modulos.bloco_d.rd590 import validar_d590_fiscal
+from fiscal.modulos.bloco_d.rd600 import validar_d600_fiscal
+from fiscal.modulos.bloco_d.rd610 import validar_d610_fiscal
+from fiscal.modulos.bloco_d.rd690 import validar_d690_fiscal
+from fiscal.modulos.bloco_d.rd695 import validar_d695_fiscal
+from fiscal.modulos.bloco_d.rd696 import validar_d696_fiscal
+from fiscal.modulos.bloco_d.rd697 import validar_d697_fiscal
+from fiscal.modulos.bloco_d.rd700 import validar_d700_fiscal
+from fiscal.modulos.bloco_d.rd730 import validar_d730_fiscal
+from fiscal.modulos.bloco_d.rd731 import validar_d731_fiscal
+from fiscal.modulos.bloco_d.rd735 import validar_d735_fiscal
+from fiscal.modulos.bloco_d.rd737 import validar_d737_fiscal
+from fiscal.modulos.bloco_d.rd740 import validar_d740_fiscal
+from fiscal.modulos.bloco_d.rd750 import validar_d750_fiscal
+from fiscal.modulos.bloco_d.rd760 import validar_d760_fiscal
+from fiscal.modulos.bloco_d.rd761 import validar_d761_fiscal
+
+from fiscal.modulos.bloco_e.re100 import validar_e100_fiscal
+from fiscal.modulos.bloco_e.re110 import validar_e110_fiscal
+from fiscal.modulos.bloco_e.re111 import validar_e111_fiscal
+from fiscal.modulos.bloco_e.re112 import validar_e112_fiscal
+from fiscal.modulos.bloco_e.re113 import validar_e113_fiscal
+from fiscal.modulos.bloco_e.re115 import validar_e115_fiscal
+from fiscal.modulos.bloco_e.re116 import validar_e116_fiscal
+from fiscal.modulos.bloco_e.re120 import validar_e120_fiscal
+from fiscal.modulos.bloco_e.re130 import validar_e130_fiscal
+from fiscal.modulos.bloco_e.re140 import validar_e140_fiscal
+from fiscal.modulos.bloco_e.re150 import validar_e150_fiscal
+from fiscal.modulos.bloco_e.re160 import validar_e160_fiscal
+from fiscal.modulos.bloco_e.re161 import validar_e161_fiscal
+from fiscal.modulos.bloco_e.re162 import validar_e162_fiscal
+from fiscal.modulos.bloco_e.re170 import validar_e170_fiscal
+from fiscal.modulos.bloco_e.re180 import validar_e180_fiscal
+from fiscal.modulos.bloco_e.re190 import validar_e190_fiscal
+from fiscal.modulos.bloco_e.re195 import validar_e195_fiscal
+from fiscal.modulos.bloco_e.re197 import validar_e197_fiscal
+from fiscal.modulos.bloco_e.re200 import validar_e200_fiscal
+from fiscal.modulos.bloco_e.re210 import validar_e210_fiscal
+from fiscal.modulos.bloco_e.re220 import validar_e220_fiscal
+from fiscal.modulos.bloco_e.re230 import validar_e230_fiscal
+from fiscal.modulos.bloco_e.re240 import validar_e240_fiscal
+from fiscal.modulos.bloco_e.re250 import validar_e250_fiscal
+from fiscal.modulos.bloco_e.re300 import validar_e300_fiscal
+from fiscal.modulos.bloco_e.re301 import validar_e301_fiscal
+from fiscal.modulos.bloco_e.re310 import validar_e310_fiscal
+from fiscal.modulos.bloco_e.re311 import validar_e311_fiscal
+from fiscal.modulos.bloco_e.re312 import validar_e312_fiscal
+from fiscal.modulos.bloco_e.re313 import validar_e313_fiscal
+from fiscal.modulos.bloco_e.re316 import validar_e316_fiscal
+from fiscal.modulos.bloco_e.re350 import validar_e350_fiscal
+from fiscal.modulos.bloco_e.re355 import validar_e355_fiscal
+from fiscal.modulos.bloco_e.re360 import validar_e360_fiscal
+from fiscal.modulos.bloco_e.re365 import validar_e365_fiscal
+from fiscal.modulos.bloco_e.re370 import validar_e370_fiscal
+from fiscal.modulos.bloco_e.re390 import validar_e390_fiscal
+from fiscal.modulos.bloco_e.re400 import validar_e400_fiscal
+from fiscal.modulos.bloco_e.re410 import validar_e410_fiscal
+from fiscal.modulos.bloco_e.re411 import validar_e411_fiscal
+from fiscal.modulos.bloco_e.re420 import validar_e420_fiscal
+from fiscal.modulos.bloco_e.re500 import validar_e500_fiscal
+from fiscal.modulos.bloco_e.re510 import validar_e510_fiscal
+from fiscal.modulos.bloco_e.re520 import validar_e520_fiscal
+from fiscal.modulos.bloco_e.re530 import validar_e530_fiscal
+from fiscal.modulos.bloco_e.re531 import validar_e531_fiscal
+from fiscal.modulos.bloco_e.re590 import validar_e590_fiscal
+from fiscal.modulos.bloco_e.re600 import validar_e600_fiscal
+from fiscal.modulos.bloco_e.re610 import validar_e610_fiscal
+from fiscal.modulos.bloco_e.re690 import validar_e690_fiscal
+from fiscal.modulos.bloco_e.re695 import validar_e695_fiscal
+from fiscal.modulos.bloco_e.re696 import validar_e696_fiscal
+from fiscal.modulos.bloco_e.re697 import validar_e697_fiscal
+from fiscal.modulos.bloco_e.re700 import validar_e700_fiscal
+from fiscal.modulos.bloco_e.re730 import validar_e730_fiscal
+from fiscal.modulos.bloco_e.re731 import validar_e731_fiscal
+from fiscal.modulos.bloco_e.re735 import validar_e735_fiscal
+from fiscal.modulos.bloco_e.re737 import validar_e737_fiscal
+from fiscal.modulos.bloco_e.re740 import validar_e740_fiscal
+from fiscal.modulos.bloco_e.re750 import validar_e750_fiscal
+from fiscal.modulos.bloco_e.re760 import validar_e760_fiscal
+
+from fiscal.modulos.bloco_g.rg001 import validar_g001_fiscal
+from fiscal.modulos.bloco_g.rg110 import validar_g110_fiscal
+from fiscal.modulos.bloco_g.rg125 import validar_g125_fiscal
+from fiscal.modulos.bloco_g.rg126 import validar_g126_fiscal
+from fiscal.modulos.bloco_g.rg130 import validar_g130_fiscal
+from fiscal.modulos.bloco_g.rg140 import validar_g140_fiscal
+from fiscal.modulos.bloco_g.rg990 import validar_g990_fiscal
+
+from fiscal.modulos.bloco_h.rh001 import validar_h001_fiscal
+from fiscal.modulos.bloco_h.rh005 import validar_h005_fiscal
+from fiscal.modulos.bloco_h.rh010 import validar_h010_fiscal
+from fiscal.modulos.bloco_h.rh020 import validar_h020_fiscal
+from fiscal.modulos.bloco_h.rh030 import validar_h030_fiscal
+from fiscal.modulos.bloco_h.rh990 import validar_h990_fiscal
+
+from fiscal.modulos.bloco_k.rk001 import validar_k001_fiscal
+from fiscal.modulos.bloco_k.rk010 import validar_k010_fiscal
+from fiscal.modulos.bloco_k.rk100 import validar_k100_fiscal
+from fiscal.modulos.bloco_k.rk200 import validar_k200_fiscal
+from fiscal.modulos.bloco_k.rk210 import validar_k210_fiscal
+from fiscal.modulos.bloco_k.rk215 import validar_k215_fiscal
+from fiscal.modulos.bloco_k.rk220 import validar_k220_fiscal
+from fiscal.modulos.bloco_k.rk230 import validar_k230_fiscal
+from fiscal.modulos.bloco_k.rk235 import validar_k235_fiscal
+from fiscal.modulos.bloco_k.rk250 import validar_k250_fiscal
+from fiscal.modulos.bloco_k.rk255 import validar_k255_fiscal
+from fiscal.modulos.bloco_k.rk260 import validar_k260_fiscal
+from fiscal.modulos.bloco_k.rk265 import validar_k265_fiscal
+from fiscal.modulos.bloco_k.rk270 import validar_k270_fiscal
+from fiscal.modulos.bloco_k.rk275 import validar_k275_fiscal
+from fiscal.modulos.bloco_k.rk280 import validar_k280_fiscal
+from fiscal.modulos.bloco_k.rk290 import validar_k290_fiscal
+from fiscal.modulos.bloco_k.rk291 import validar_k291_fiscal
+from fiscal.modulos.bloco_k.rk292 import validar_k292_fiscal
+from fiscal.modulos.bloco_k.rk300 import validar_k300_fiscal
+from fiscal.modulos.bloco_k.rk301 import validar_k301_fiscal
+from fiscal.modulos.bloco_k.rk302 import validar_k302_fiscal
+from fiscal.modulos.bloco_k.rk990 import validar_k990_fiscal
+
+from flask import Flask, request, send_file, jsonify
+from werkzeug.utils import secure_filename
+from flasgger import Swagger
+from loguru import logger
+from pathlib import Path
+import tempfile
+import zipfile
+import json
+import os
+import io
 
 VALIDADORES_BLOCO_0 = {
     '0000': validar_0000,
@@ -187,6 +464,32 @@ VALIDADORES_BLOCO_0 = {
     '0500': validar_0500,
     '0600': validar_0600,
     '0900': validar_0900,
+}
+
+VALIDADORES_BLOCO_0_FISCAL = {
+    '0000': validar_0000_fiscal,
+    '0001': validar_0001_fiscal,
+    '0002': validar_0002_fiscal,
+    '0005': validar_0005_fiscal,
+    '0015': validar_0015_fiscal,
+    '0100': validar_0100_fiscal,
+    '0150': validar_0150_fiscal,
+    '0175': validar_0175_fiscal,
+    '0190': validar_0190_fiscal,
+    '0200': validar_0200_fiscal,
+    '0205': validar_0205_fiscal,
+    '0206': validar_0206_fiscal,
+    '0210': validar_0210_fiscal,
+    '0220': validar_0220_fiscal,
+    '0221': validar_0221_fiscal,
+    '0300': validar_0300_fiscal,
+    '0305': validar_0305_fiscal,
+    '0400': validar_0400_fiscal,
+    '0450': validar_0450_fiscal,
+    '0460': validar_0460_fiscal,
+    '0500': validar_0500_fiscal,
+    '0600': validar_0600_fiscal,
+    '0990': validar_0990_fiscal,
 }
 
 VALIDADORES_BLOCO_1 = {
@@ -213,6 +516,58 @@ VALIDADORES_BLOCO_1 = {
     '1900': validar_1900,
 }
 
+VALIDADE_BLOCO_1_FISCAL = {
+    '1010': validar_1010_fiscal,
+    '1100': validar_1100_fiscal,
+    '1105': validar_1105_fiscal,
+    '1110': validar_1110_fiscal,
+    '1200': validar_1200_fiscal,
+    '1210': validar_1210_fiscal,
+    '1250': validar_1250_fiscal,
+    '1255': validar_1255_fiscal,
+    '1300': validar_1300_fiscal,
+    '1310': validar_1310_fiscal,
+    '1320': validar_1320_fiscal,
+    '1350': validar_1350_fiscal,
+    '1360': validar_1360_fiscal,
+    '1370': validar_1370_fiscal,
+    '1390': validar_1390_fiscal,
+    '1391': validar_1391_fiscal,
+    '1400': validar_1400_fiscal,
+    '1500': validar_1500_fiscal,
+    '1510': validar_1510_fiscal,
+    '1600': validar_1600_fiscal,
+    '1601': validar_1601_fiscal,
+    '1700': validar_1700_fiscal,
+    '1710': validar_1710_fiscal,
+    '1800': validar_1800_fiscal,
+    '1900': validar_1900_fiscal,
+    '1910': validar_1910_fiscal,
+    '1920': validar_1920_fiscal,
+    '1921': validar_1921_fiscal,
+    '1922': validar_1922_fiscal,
+    '1923': validar_1923_fiscal,
+    '1925': validar_1925_fiscal,
+    '1926': validar_1926_fiscal,
+    '1960': validar_1960_fiscal,
+    '1970': validar_1970_fiscal,
+    '1975': validar_1975_fiscal,
+    '1980': validar_1980_fiscal,
+    '1990': validar_1990_fiscal,
+}
+
+VALIDADORES_BLOCO_9 = {
+    "9001": validar_9001,
+    "9900": validar_9900,
+    "9990": validar_9990,
+    "9999": validar_9999,
+}
+
+VALIDADE_BLOCO_9_FISCAL = {
+    "9001": validar_9001_fiscal,
+    "9990": validar_9990_fiscal,
+}
+
 VALIDADORES_BLOCO_A = {
     'A010': validar_a010,
     'A100': validar_a100,
@@ -220,6 +575,21 @@ VALIDADORES_BLOCO_A = {
     'A111': validar_a111,
     'A120': validar_a120,
     'A170': validar_a170,
+}
+
+VALIDADORES_BLOCO_B = {
+    'B001': validar_b001_fiscal,
+    'B020': validar_b020_fiscal,
+    'B025': validar_b025_fiscal,
+    'B030': validar_b030_fiscal,
+    'B035': validar_b035_fiscal,
+    'B350': validar_b350_fiscal,
+    'B420': validar_b420_fiscal,
+    'B460': validar_b460_fiscal,
+    'B470': validar_b470_fiscal,
+    'B500': validar_b500_fiscal,
+    'B510': validar_b510_fiscal,
+    'B990': validar_b990_fiscal,
 }
 
 VALIDADORES_BLOCO_C = {
@@ -270,6 +640,19 @@ VALIDADORES_BLOCO_C = {
     "C890": validar_c890
 }
 
+VALIDADE_BLOCO_C_FISCAL = {
+    "C001": validar_c001_fiscal,
+    "C100": validar_c100_fiscal,
+    "C101": validar_c101_fiscal,
+    "C105": validar_c105_fiscal,
+    "C110": validar_c110_fiscal,
+    "C111": validar_c111_fiscal,
+    "C112": validar_c112_fiscal,
+    "C113": validar_c113_fiscal,
+    "C170": validar_c170_fiscal,
+    "C190": validar_c190_fiscal
+}
+
 VALIDADORES_BLOCO_D = {
     "D010": validar_d010,
     "D100": validar_d100,
@@ -292,6 +675,121 @@ VALIDADORES_BLOCO_D = {
     "D601": validar_d601,
     "D605": validar_d605,
     "D609": validar_d609
+}
+
+VALIDADORES_BLOCO_D_FISCAL = {
+    "D100": validar_d100_fiscal,
+    "D101": validar_d101_fiscal,
+    "D110": validar_d110_fiscal,
+    "D120": validar_d120_fiscal,
+    "D130": validar_d130_fiscal,
+    "D140": validar_d140_fiscal,
+    "D150": validar_d150_fiscal,
+    "D160": validar_d160_fiscal,
+    "D161": validar_d161_fiscal,
+    "D162": validar_d162_fiscal,
+    "D170": validar_d170_fiscal,
+    "D180": validar_d180_fiscal,
+    "D190": validar_d190_fiscal,
+    "D195": validar_d195_fiscal,
+    "D197": validar_d197_fiscal,
+    "D300": validar_d300_fiscal,
+    "D301": validar_d301_fiscal,
+    "D310": validar_d310_fiscal,
+    "D350": validar_d350_fiscal,
+    "D355": validar_d355_fiscal,
+    "D360": validar_d360_fiscal,
+    "D365": validar_d365_fiscal,
+    "D370": validar_d370_fiscal,
+    "D390": validar_d390_fiscal,
+    "D400": validar_d400_fiscal,
+    "D410": validar_d410_fiscal,
+    "D411": validar_d411_fiscal,
+    "D420": validar_d420_fiscal,
+    "D500": validar_d500_fiscal,
+    "D510": validar_d510_fiscal,
+    "D530": validar_d530_fiscal,
+    "D590": validar_d590_fiscal,
+    "D600": validar_d600_fiscal,
+    "D610": validar_d610_fiscal,
+    "D690": validar_d690_fiscal,
+    "D695": validar_d695_fiscal,
+    "D696": validar_d696_fiscal,
+    "D697": validar_d697_fiscal,
+    "D700": validar_d700_fiscal,
+    "D730": validar_d730_fiscal,
+    "D731": validar_d731_fiscal,
+    "D735": validar_d735_fiscal,
+    "D737": validar_d737_fiscal,
+    "D740": validar_d740_fiscal,
+    "D750": validar_d750_fiscal,
+    "D760": validar_d760_fiscal,
+    "D761": validar_d761_fiscal,
+}
+
+VALIDADORES_BLOCO_E_FISCAL = {
+    "E100": validar_e100_fiscal,
+    "E110": validar_e110_fiscal,
+    "E111": validar_e111_fiscal,
+    "E112": validar_e112_fiscal,
+    "E113": validar_e113_fiscal,
+    "E115": validar_e115_fiscal,
+    "E116": validar_e116_fiscal,
+    "E120": validar_e120_fiscal,
+    "E130": validar_e130_fiscal,
+    "E140": validar_e140_fiscal,
+    "E150": validar_e150_fiscal,
+    "E160": validar_e160_fiscal,
+    "E161": validar_e161_fiscal,
+    "E162": validar_e162_fiscal,
+    "E170": validar_e170_fiscal,
+    "E180": validar_e180_fiscal,
+    "E190": validar_e190_fiscal,
+    "E195": validar_e195_fiscal,
+    "E197": validar_e197_fiscal,
+    "E200": validar_e200_fiscal,
+    "E210": validar_e210_fiscal,
+    "E220": validar_e220_fiscal,
+    "E230": validar_e230_fiscal,
+    "E240": validar_e240_fiscal,
+    "E250": validar_e250_fiscal,
+    "E300": validar_e300_fiscal,
+    "E301": validar_e301_fiscal,
+    "E310": validar_e310_fiscal,
+    "E311": validar_e311_fiscal,
+    "E312": validar_e312_fiscal,
+    "E313": validar_e313_fiscal,
+    "E316": validar_e316_fiscal,
+    "E350": validar_e350_fiscal,
+    "E355": validar_e355_fiscal,
+    "E360": validar_e360_fiscal,
+    "E365": validar_e365_fiscal,
+    "E370": validar_e370_fiscal,
+    "E390": validar_e390_fiscal,
+    "E400": validar_e400_fiscal,
+    "E410": validar_e410_fiscal,
+    "E411": validar_e411_fiscal,
+    "E420": validar_e420_fiscal,
+    "E500": validar_e500_fiscal,
+    "E510": validar_e510_fiscal,
+    "E520": validar_e520_fiscal,
+    "E530": validar_e530_fiscal,
+    "E531": validar_e531_fiscal,
+    "E590": validar_e590_fiscal,
+    "E600": validar_e600_fiscal,
+    "E610": validar_e610_fiscal,
+    "E690": validar_e690_fiscal,
+    "E695": validar_e695_fiscal,
+    "E696": validar_e696_fiscal,
+    "E697": validar_e697_fiscal,
+    "E700": validar_e700_fiscal,
+    "E730": validar_e730_fiscal,
+    "E731": validar_e731_fiscal,
+    "E735": validar_e735_fiscal,
+    "E737": validar_e737_fiscal,
+    "E740": validar_e740_fiscal,
+    "E750": validar_e750_fiscal,
+    "E760": validar_e760_fiscal,
 }
 
 VALIDADORES_BLOCO_F = {
@@ -321,6 +819,25 @@ VALIDADORES_BLOCO_F = {
     "F800": validar_f800
 }
 
+VALIDADORES_BLOCO_G_FISCAL = {
+    "G001": validar_g001_fiscal,
+    "G110": validar_g110_fiscal,
+    "G125": validar_g125_fiscal,
+    "G126": validar_g126_fiscal,
+    "G130": validar_g130_fiscal,
+    "G140": validar_g140_fiscal,
+    "G990": validar_g990_fiscal,
+}
+
+VALIDADORES_BLOCO_H_FISCAL = {
+    "H001": validar_h001_fiscal,
+    "H005": validar_h005_fiscal,
+    "H010": validar_h010_fiscal,
+    "H020": validar_h020_fiscal,
+    "H030": validar_h030_fiscal,
+    "H990": validar_h990_fiscal,
+}
+
 VALIDADORES_BLOCO_I = {
     "I010": validar_i010,
     "I100": validar_i100,
@@ -329,6 +846,68 @@ VALIDADORES_BLOCO_I = {
     "I299": validar_i299,
     "I300": validar_i300,
     "I399": validar_i399
+}
+
+VALIDADORES_BLOCO_K_FISCAL = {
+    "K001": validar_k001_fiscal,
+    "K010": validar_k010_fiscal,
+    "K100": validar_k100_fiscal,
+    "K200": validar_k200_fiscal,
+    "K210": validar_k210_fiscal,
+    "K215": validar_k215_fiscal,
+    "K220": validar_k220_fiscal,
+    "K230": validar_k230_fiscal,
+    "K235": validar_k235_fiscal,
+    "K250": validar_k250_fiscal,
+    "K255": validar_k255_fiscal,
+    "K260": validar_k260_fiscal,
+    "K265": validar_k265_fiscal,
+    "K270": validar_k270_fiscal,
+    "K275": validar_k275_fiscal,
+    "K280": validar_k280_fiscal,
+    "K290": validar_k290_fiscal,
+    "K291": validar_k291_fiscal,
+    "K292": validar_k292_fiscal,
+    "K300": validar_k300_fiscal,
+    "K301": validar_k301_fiscal,
+    "K302": validar_k302_fiscal,
+    "K990": validar_k990_fiscal,
+}
+
+VALIDADORES_BLOCO_M = {
+    "M001": validar_m001,
+    "M100": validar_m100,
+    "M105": validar_m105,
+    "M110": validar_m110,
+    "M115": validar_m115,
+    "M200": validar_m200,
+    "M205": validar_m205,
+    "M210": validar_m210,
+    "M211": validar_m211,
+    "M215": validar_m215,
+    "M220": validar_m220,
+    "M225": validar_m225,
+    "M230": validar_m230,
+    "M300": validar_m300,
+    "M350": validar_m350,
+    "M400": validar_m400,
+    "M410": validar_m410,
+    "M500": validar_m500,
+    "M505": validar_m505,
+    "M510": validar_m510,
+    "M515": validar_m515,
+    "M600": validar_m600,
+    "M605": validar_m605,
+    "M610": validar_m610,
+    "M611": validar_m611,
+    "M615": validar_m615,
+    "M620": validar_m620,
+    "M625": validar_m625,
+    "M630": validar_m630,
+    "M700": validar_m700,
+    "M800": validar_m800,
+    "M810": validar_m810,
+    "M990": validar_m990,
 }
 
 VALIDADORES_BLOCO_P = {
@@ -425,7 +1004,8 @@ def extrair_bloco_registro(linha):
         return None
     
     primeiro_caractere = codigo_registro[0].upper()
-    blocos_validos = ['0', '1', '9', 'A', 'C', 'D', 'F', 'I', 'M', 'P']
+    # Inclui blocos usados tanto em EFD Contribuições quanto em EFD Fiscal
+    blocos_validos = ['0', '1', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'H', 'I', 'K', 'M', 'P']
     
     if primeiro_caractere in blocos_validos:
         return primeiro_caractere
@@ -603,7 +1183,7 @@ def extrair_blocos_arquivo(conteudo_arquivo):
 
 def validar_registros_blocos_0_1(conteudo_arquivo):
     """
-    Valida os registros dos blocos 0, 1, A, C, D, F, I e P de um arquivo SPED Contribuições.
+    Valida os registros dos blocos 0, 1, 9, A, C, D, F, I, M e P de um arquivo SPED Contribuições.
     
     Args:
         conteudo_arquivo: Bytes ou string com o conteúdo do arquivo
@@ -619,6 +1199,11 @@ def validar_registros_blocos_0_1(conteudo_arquivo):
             'bloco_1': {
                 '1010': [resultados_validacao],
                 '1100': [resultados_validacao],
+                ...
+            },
+            'bloco_9': {
+                '9001': [resultados_validacao],
+                '9900': [resultados_validacao],
                 ...
             },
             'bloco_a': {
@@ -646,6 +1231,11 @@ def validar_registros_blocos_0_1(conteudo_arquivo):
                 'I100': [resultados_validacao],
                 ...
             },
+            'bloco_m': {
+                'M001': [resultados_validacao],
+                'M100': [resultados_validacao],
+                ...
+            },
             'bloco_p': {
                 'P010': [resultados_validacao],
                 'P100': [resultados_validacao],
@@ -658,11 +1248,13 @@ def validar_registros_blocos_0_1(conteudo_arquivo):
     resultado = {
         'bloco_0': {},
         'bloco_1': {},
+        'bloco_9': {},
         'bloco_a': {},
         'bloco_c': {},
         'bloco_d': {},
         'bloco_f': {},
         'bloco_i': {},
+        'bloco_m': {},
         'bloco_p': {},
         'total_validacoes': 0,
         'registros_validados': 0
@@ -694,14 +1286,15 @@ def validar_registros_blocos_0_1(conteudo_arquivo):
         logger.warning("Não foi possível determinar o encoding do arquivo para validação")
         return resultado
     
-    # Agrupa linhas por código de registro
     linhas_bloco_0 = {}
     linhas_bloco_1 = {}
+    linhas_bloco_9 = {}
     linhas_bloco_a = {}
     linhas_bloco_c = {}
     linhas_bloco_d = {}
     linhas_bloco_f = {}
     linhas_bloco_i = {}
+    linhas_bloco_m = {}
     linhas_bloco_p = {}
     
     try:
@@ -720,64 +1313,61 @@ def validar_registros_blocos_0_1(conteudo_arquivo):
             
             codigo_registro = partes[0].upper()
             
-            # logger.info(f'Bloco -> {bloco}')
-            
-            # Agrupa linhas do bloco 0
             if bloco == '0' and codigo_registro in VALIDADORES_BLOCO_0:
                 if codigo_registro not in linhas_bloco_0:
                     linhas_bloco_0[codigo_registro] = []
                 linhas_bloco_0[codigo_registro].append(linha)
             
-            # Agrupa linhas do bloco 1
             elif bloco == '1' and codigo_registro in VALIDADORES_BLOCO_1:
                 if codigo_registro not in linhas_bloco_1:
                     linhas_bloco_1[codigo_registro] = []
                 linhas_bloco_1[codigo_registro].append(linha)
+
+            elif bloco == '9':
+                if codigo_registro not in linhas_bloco_9:
+                    linhas_bloco_9[codigo_registro] = []
+                linhas_bloco_9[codigo_registro].append(linha)
             
-            # Agrupa linhas do bloco A
             elif bloco == 'A' and codigo_registro in VALIDADORES_BLOCO_A:
                 if codigo_registro not in linhas_bloco_a:
                     linhas_bloco_a[codigo_registro] = []
                 linhas_bloco_a[codigo_registro].append(linha)
                 
-            # Agrupa linhas do bloco C (todos os registros, mesmo sem validador)
             elif bloco == 'C':
                 if codigo_registro not in linhas_bloco_c:
                     linhas_bloco_c[codigo_registro] = []
                 linhas_bloco_c[codigo_registro].append(linha)
             
-            # Agrupa linhas do bloco D (todos os registros, mesmo sem validador)
             elif bloco == 'D':
                 if codigo_registro not in linhas_bloco_d:
                     linhas_bloco_d[codigo_registro] = []
                 linhas_bloco_d[codigo_registro].append(linha)
             
-            # Agrupa linhas do bloco F (todos os registros, mesmo sem validador)
             elif bloco == 'F':
                 if codigo_registro not in linhas_bloco_f:
                     linhas_bloco_f[codigo_registro] = []
                 linhas_bloco_f[codigo_registro].append(linha)
             
-            # Agrupa linhas do bloco I (todos os registros, mesmo sem validador)
             elif bloco == 'I':
                 if codigo_registro not in linhas_bloco_i:
                     linhas_bloco_i[codigo_registro] = []
                 linhas_bloco_i[codigo_registro].append(linha)
 
-            # Agrupa linhas do bloco P (todos os registros, mesmo sem validador)
+            elif bloco == 'M':
+                if codigo_registro not in linhas_bloco_m:
+                    linhas_bloco_m[codigo_registro] = []
+                linhas_bloco_m[codigo_registro].append(linha)
+
             elif bloco == 'P':
                 if codigo_registro not in linhas_bloco_p:
                     linhas_bloco_p[codigo_registro] = []
                 linhas_bloco_p[codigo_registro].append(linha)
             
-        # logger.info(f'Linhas do bloco C -> {linhas_bloco_c}')
-        # Valida registros do bloco 0
         for codigo_registro, linhas in linhas_bloco_0.items():
             try:
                 validador = VALIDADORES_BLOCO_0[codigo_registro]
                 resultado_validacao = validador(linhas)
                 
-                # Converte JSON string para objeto Python
                 try:
                     resultado_json = json.loads(resultado_validacao)
                     resultado['bloco_0'][codigo_registro] = resultado_json
@@ -791,13 +1381,11 @@ def validar_registros_blocos_0_1(conteudo_arquivo):
                 logger.error(f"Erro ao validar registro {codigo_registro} do bloco 0: {str(e)}")
                 resultado['bloco_0'][codigo_registro] = []
         
-        # Valida registros do bloco 1
         for codigo_registro, linhas in linhas_bloco_1.items():
             try:
                 validador = VALIDADORES_BLOCO_1[codigo_registro]
                 resultado_validacao = validador(linhas)
                 
-                # Converte JSON string para objeto Python
                 try:
                     resultado_json = json.loads(resultado_validacao)
                     resultado['bloco_1'][codigo_registro] = resultado_json
@@ -810,14 +1398,35 @@ def validar_registros_blocos_0_1(conteudo_arquivo):
             except Exception as e:
                 logger.error(f"Erro ao validar registro {codigo_registro} do bloco 1: {str(e)}")
                 resultado['bloco_1'][codigo_registro] = []
+
+        for codigo_registro, linhas in linhas_bloco_9.items():
+            if codigo_registro not in VALIDADORES_BLOCO_9:
+                logger.debug(f"Nenhum validador encontrado para registro {codigo_registro} do bloco 9, retornando vazio")
+                resultado['bloco_9'][codigo_registro] = []
+                continue
+
+            try:
+                validador = VALIDADORES_BLOCO_9[codigo_registro]
+                resultado_validacao = validador(linhas)
+
+                try:
+                    resultado_json = json.loads(resultado_validacao)
+                    resultado['bloco_9'][codigo_registro] = resultado_json
+                    resultado['registros_validados'] += len(linhas)
+                    resultado['total_validacoes'] += len(resultado_json) if isinstance(resultado_json, list) else 1
+                except json.JSONDecodeError:
+                    logger.warning(f"Erro ao decodificar JSON do registro {codigo_registro}")
+                    resultado['bloco_9'][codigo_registro] = []
+
+            except Exception as e:
+                logger.error(f"Erro ao validar registro {codigo_registro} do bloco 9: {str(e)}")
+                resultado['bloco_9'][codigo_registro] = []
         
-        # Valida registros do bloco A
         for codigo_registro, linhas in linhas_bloco_a.items():
             try:
                 validador = VALIDADORES_BLOCO_A[codigo_registro]
                 resultado_validacao = validador(linhas)
                 
-                # Converte JSON string para objeto Python
                 try:
                     resultado_json = json.loads(resultado_validacao)
                     resultado['bloco_a'][codigo_registro] = resultado_json
@@ -831,9 +1440,7 @@ def validar_registros_blocos_0_1(conteudo_arquivo):
                 logger.error(f"Erro ao validar registro {codigo_registro} do bloco A: {str(e)}")
                 resultado['bloco_a'][codigo_registro] = []
         
-        # Valida registros do bloco C
         for codigo_registro, linhas in linhas_bloco_c.items():
-            # Se não houver validador para este registro, retorna vazio
             if codigo_registro not in VALIDADORES_BLOCO_C:
                 logger.debug(f"Nenhum validador encontrado para registro {codigo_registro} do bloco C, retornando vazio")
                 resultado['bloco_c'][codigo_registro] = []
@@ -843,7 +1450,6 @@ def validar_registros_blocos_0_1(conteudo_arquivo):
                 validador = VALIDADORES_BLOCO_C[codigo_registro]
                 resultado_validacao = validador(linhas)
                 
-                # Converte JSON string para objeto Python
                 try:
                     resultado_json = json.loads(resultado_validacao)
                     resultado['bloco_c'][codigo_registro] = resultado_json
@@ -856,10 +1462,9 @@ def validar_registros_blocos_0_1(conteudo_arquivo):
             except Exception as e:
                 logger.error(f"Erro ao validar registro {codigo_registro} do bloco C: {str(e)}")
                 resultado['bloco_c'][codigo_registro] = []
-        
-        # Valida registros do bloco D
+
         for codigo_registro, linhas in linhas_bloco_d.items():
-            # Se não houver validador para este registro, retorna vazio
+
             if codigo_registro not in VALIDADORES_BLOCO_D:
                 logger.debug(f"Nenhum validador encontrado para registro {codigo_registro} do bloco D, retornando vazio")
                 resultado['bloco_d'][codigo_registro] = []
@@ -869,7 +1474,6 @@ def validar_registros_blocos_0_1(conteudo_arquivo):
                 validador = VALIDADORES_BLOCO_D[codigo_registro]
                 resultado_validacao = validador(linhas)
                 
-                # Converte JSON string para objeto Python
                 try:
                     resultado_json = json.loads(resultado_validacao)
                     resultado['bloco_d'][codigo_registro] = resultado_json
@@ -883,9 +1487,7 @@ def validar_registros_blocos_0_1(conteudo_arquivo):
                 logger.error(f"Erro ao validar registro {codigo_registro} do bloco D: {str(e)}")
                 resultado['bloco_d'][codigo_registro] = []
         
-        # Valida registros do bloco F
         for codigo_registro, linhas in linhas_bloco_f.items():
-            # Se não houver validador para este registro, retorna vazio
             if codigo_registro not in VALIDADORES_BLOCO_F:
                 logger.debug(f"Nenhum validador encontrado para registro {codigo_registro} do bloco F, retornando vazio")
                 resultado['bloco_f'][codigo_registro] = []
@@ -895,7 +1497,6 @@ def validar_registros_blocos_0_1(conteudo_arquivo):
                 validador = VALIDADORES_BLOCO_F[codigo_registro]
                 resultado_validacao = validador(linhas)
                 
-                # Converte JSON string para objeto Python
                 try:
                     resultado_json = json.loads(resultado_validacao)
                     resultado['bloco_f'][codigo_registro] = resultado_json
@@ -909,9 +1510,7 @@ def validar_registros_blocos_0_1(conteudo_arquivo):
                 logger.error(f"Erro ao validar registro {codigo_registro} do bloco F: {str(e)}")
                 resultado['bloco_f'][codigo_registro] = []
         
-        # Valida registros do bloco I
         for codigo_registro, linhas in linhas_bloco_i.items():
-            # Se não houver validador para este registro, retorna vazio
             if codigo_registro not in VALIDADORES_BLOCO_I:
                 logger.debug(f"Nenhum validador encontrado para registro {codigo_registro} do bloco I, retornando vazio")
                 resultado['bloco_i'][codigo_registro] = []
@@ -921,7 +1520,6 @@ def validar_registros_blocos_0_1(conteudo_arquivo):
                 validador = VALIDADORES_BLOCO_I[codigo_registro]
                 resultado_validacao = validador(linhas)
                 
-                # Converte JSON string para objeto Python
                 try:
                     resultado_json = json.loads(resultado_validacao)
                     resultado['bloco_i'][codigo_registro] = resultado_json
@@ -935,9 +1533,30 @@ def validar_registros_blocos_0_1(conteudo_arquivo):
                 logger.error(f"Erro ao validar registro {codigo_registro} do bloco I: {str(e)}")
                 resultado['bloco_i'][codigo_registro] = []
 
-        # Valida registros do bloco P
+        for codigo_registro, linhas in linhas_bloco_m.items():
+            if codigo_registro not in VALIDADORES_BLOCO_M:
+                logger.debug(f"Nenhum validador encontrado para registro {codigo_registro} do bloco M, retornando vazio")
+                resultado['bloco_m'][codigo_registro] = []
+                continue
+
+            try:
+                validador = VALIDADORES_BLOCO_M[codigo_registro]
+                resultado_validacao = validador(linhas)
+
+                try:
+                    resultado_json = json.loads(resultado_validacao)
+                    resultado['bloco_m'][codigo_registro] = resultado_json
+                    resultado['registros_validados'] += len(linhas)
+                    resultado['total_validacoes'] += len(resultado_json) if isinstance(resultado_json, list) else 1
+                except json.JSONDecodeError:
+                    logger.warning(f"Erro ao decodificar JSON do registro {codigo_registro}")
+                    resultado['bloco_m'][codigo_registro] = []
+
+            except Exception as e:
+                logger.error(f"Erro ao validar registro {codigo_registro} do bloco M: {str(e)}")
+                resultado['bloco_m'][codigo_registro] = []
+
         for codigo_registro, linhas in linhas_bloco_p.items():
-            # Se não houver validador para este registro, retorna vazio
             if codigo_registro not in VALIDADORES_BLOCO_P:
                 logger.debug(f"Nenhum validador encontrado para registro {codigo_registro} do bloco P, retornando vazio")
                 resultado['bloco_p'][codigo_registro] = []
@@ -947,7 +1566,6 @@ def validar_registros_blocos_0_1(conteudo_arquivo):
                 validador = VALIDADORES_BLOCO_P[codigo_registro]
                 resultado_validacao = validador(linhas)
 
-                # Converte JSON string para objeto Python
                 try:
                     resultado_json = json.loads(resultado_validacao)
                     resultado['bloco_p'][codigo_registro] = resultado_json
@@ -970,6 +1588,291 @@ def validar_registros_blocos_0_1(conteudo_arquivo):
         if arquivo:
             arquivo.close()
     
+    return resultado
+
+
+def validar_registros_fiscal(conteudo_arquivo):
+    """
+    Valida registros do SPED EFD Fiscal usando os validadores fiscais.
+    Atualmente contempla:
+    - Bloco 0 Fiscal (0000...0990)
+    - Bloco 9 Fiscal (9001, 9990)
+    - Bloco B Fiscal (B001...B990)
+    - Bloco C Fiscal (C001...C190)
+    - Bloco D Fiscal (D100...D761)
+    - Bloco E Fiscal (E100...E760)
+    - Bloco H Fiscal (H001...H990)
+    """
+    resultado = {
+        "bloco_0": {},
+        "bloco_9": {},
+        "bloco_b": {},
+        "bloco_c": {},
+        "bloco_d": {},
+        "bloco_e": {},
+        "bloco_h": {},
+        "bloco_k": {},
+        "total_validacoes": 0,
+        "registros_validados": 0,
+    }
+
+    if isinstance(conteudo_arquivo, str):
+        conteudo_bytes = conteudo_arquivo.encode("utf-8")
+    else:
+        conteudo_bytes = conteudo_arquivo
+
+    encodings = ["latin-1", "cp1252", "iso-8859-1", "utf-8"]
+    arquivo = None
+
+    for encoding in encodings:
+        try:
+            texto = conteudo_bytes.decode(encoding)
+            arquivo = io.StringIO(texto)
+            arquivo.readline()
+            arquivo.seek(0)
+            logger.debug(f"Encoding detectado para validação fiscal: {encoding}")
+            break
+        except (UnicodeDecodeError, UnicodeError):
+            if arquivo:
+                arquivo.close()
+            arquivo = None
+            continue
+
+    if arquivo is None:
+        logger.warning("Não foi possível determinar o encoding do arquivo para validação fiscal")
+        return resultado
+
+    linhas_bloco_0 = {}
+    linhas_bloco_9 = {}
+    linhas_bloco_b = {}
+    linhas_bloco_c = {}
+    linhas_bloco_d = {}
+    linhas_bloco_e = {}
+    linhas_bloco_h = {}
+    linhas_bloco_k = {}
+
+    try:
+        for linha in arquivo:
+            linha = linha.strip()
+            if not linha or not linha.startswith("|"):
+                continue
+
+            bloco = extrair_bloco_registro(linha)
+            if bloco not in ("0", "9", "B", "C", "D", "E", "H", "K"):
+                continue
+
+            partes = [p.strip() for p in linha.split("|") if p.strip()]
+            if not partes:
+                continue
+
+            codigo_registro = partes[0].upper()
+
+            # Bloco 0 Fiscal
+            if bloco == "0" and codigo_registro in VALIDADORES_BLOCO_0_FISCAL:
+                if codigo_registro not in linhas_bloco_0:
+                    linhas_bloco_0[codigo_registro] = []
+                linhas_bloco_0[codigo_registro].append(linha)
+
+            # Bloco 9 Fiscal
+            elif bloco == "9" and codigo_registro in VALIDADE_BLOCO_9_FISCAL:
+                if codigo_registro not in linhas_bloco_9:
+                    linhas_bloco_9[codigo_registro] = []
+                linhas_bloco_9[codigo_registro].append(linha)
+
+            # Bloco B Fiscal
+            elif bloco == "B" and codigo_registro in VALIDADORES_BLOCO_B:
+                if codigo_registro not in linhas_bloco_b:
+                    linhas_bloco_b[codigo_registro] = []
+                linhas_bloco_b[codigo_registro].append(linha)
+
+            # Bloco C Fiscal
+            elif bloco == "C" and codigo_registro in VALIDADE_BLOCO_C_FISCAL:
+                if codigo_registro not in linhas_bloco_c:
+                    linhas_bloco_c[codigo_registro] = []
+                linhas_bloco_c[codigo_registro].append(linha)
+
+            # Bloco D Fiscal
+            elif bloco == "D" and codigo_registro in VALIDADORES_BLOCO_D_FISCAL:
+                if codigo_registro not in linhas_bloco_d:
+                    linhas_bloco_d[codigo_registro] = []
+                linhas_bloco_d[codigo_registro].append(linha)
+
+            # Bloco E Fiscal
+            elif bloco == "E" and codigo_registro in VALIDADORES_BLOCO_E_FISCAL:
+                if codigo_registro not in linhas_bloco_e:
+                    linhas_bloco_e[codigo_registro] = []
+                linhas_bloco_e[codigo_registro].append(linha)
+
+            # Bloco H Fiscal
+            elif bloco == "H" and codigo_registro in VALIDADORES_BLOCO_H_FISCAL:
+                if codigo_registro not in linhas_bloco_h:
+                    linhas_bloco_h[codigo_registro] = []
+                linhas_bloco_h[codigo_registro].append(linha)
+
+            # Bloco K Fiscal
+            elif bloco == "K" and codigo_registro in VALIDADORES_BLOCO_K_FISCAL:
+                if codigo_registro not in linhas_bloco_k:
+                    linhas_bloco_k[codigo_registro] = []
+                linhas_bloco_k[codigo_registro].append(linha)
+
+        # Valida Bloco 0 Fiscal
+        for codigo_registro, linhas in linhas_bloco_0.items():
+            try:
+                validador = VALIDADORES_BLOCO_0_FISCAL[codigo_registro]
+                resultado_validacao = validador(linhas)
+
+                try:
+                    resultado_json = json.loads(resultado_validacao)
+                    resultado["bloco_0"][codigo_registro] = resultado_json
+                    resultado["registros_validados"] += len(linhas)
+                    resultado["total_validacoes"] += len(resultado_json) if isinstance(resultado_json, list) else 1
+                except json.JSONDecodeError:
+                    logger.warning(f"Erro ao decodificar JSON do registro fiscal {codigo_registro}")
+                    resultado["bloco_0"][codigo_registro] = []
+
+            except Exception as e:
+                logger.error(f"Erro ao validar registro fiscal {codigo_registro} do bloco 0: {str(e)}")
+                resultado["bloco_0"][codigo_registro] = []
+
+        # Valida Bloco 9 Fiscal
+        for codigo_registro, linhas in linhas_bloco_9.items():
+            try:
+                validador = VALIDADE_BLOCO_9_FISCAL[codigo_registro]
+                resultado_validacao = validador(linhas)
+
+                try:
+                    resultado_json = json.loads(resultado_validacao)
+                    resultado["bloco_9"][codigo_registro] = resultado_json
+                    resultado["registros_validados"] += len(linhas)
+                    resultado["total_validacoes"] += len(resultado_json) if isinstance(resultado_json, list) else 1
+                except json.JSONDecodeError:
+                    logger.warning(f"Erro ao decodificar JSON do registro fiscal {codigo_registro} do bloco 9")
+                    resultado["bloco_9"][codigo_registro] = []
+
+            except Exception as e:
+                logger.error(f"Erro ao validar registro fiscal {codigo_registro} do bloco 9: {str(e)}")
+                resultado["bloco_9"][codigo_registro] = []
+
+        # Valida Bloco B Fiscal
+        for codigo_registro, linhas in linhas_bloco_b.items():
+            try:
+                validador = VALIDADORES_BLOCO_B[codigo_registro]
+                resultado_validacao = validador(linhas)
+
+                try:
+                    resultado_json = json.loads(resultado_validacao)
+                    resultado["bloco_b"][codigo_registro] = resultado_json
+                    resultado["registros_validados"] += len(linhas)
+                    resultado["total_validacoes"] += len(resultado_json) if isinstance(resultado_json, list) else 1
+                except json.JSONDecodeError:
+                    logger.warning(f"Erro ao decodificar JSON do registro fiscal {codigo_registro} do bloco B")
+                    resultado["bloco_b"][codigo_registro] = []
+
+            except Exception as e:
+                logger.error(f"Erro ao validar registro fiscal {codigo_registro} do bloco B: {str(e)}")
+                resultado["bloco_b"][codigo_registro] = []
+
+        # Valida Bloco C Fiscal
+        for codigo_registro, linhas in linhas_bloco_c.items():
+            try:
+                validador = VALIDADE_BLOCO_C_FISCAL[codigo_registro]
+                resultado_validacao = validador(linhas)
+
+                try:
+                    resultado_json = json.loads(resultado_validacao)
+                    resultado["bloco_c"][codigo_registro] = resultado_json
+                    resultado["registros_validados"] += len(linhas)
+                    resultado["total_validacoes"] += len(resultado_json) if isinstance(resultado_json, list) else 1
+                except json.JSONDecodeError:
+                    logger.warning(f"Erro ao decodificar JSON do registro fiscal {codigo_registro} do bloco C")
+                    resultado["bloco_c"][codigo_registro] = []
+
+            except Exception as e:
+                logger.error(f"Erro ao validar registro fiscal {codigo_registro} do bloco C: {str(e)}")
+                resultado["bloco_c"][codigo_registro] = []
+
+        # Valida Bloco D Fiscal
+        for codigo_registro, linhas in linhas_bloco_d.items():
+            try:
+                validador = VALIDADORES_BLOCO_D_FISCAL[codigo_registro]
+                resultado_validacao = validador(linhas)
+
+                try:
+                    resultado_json = json.loads(resultado_validacao)
+                    resultado["bloco_d"][codigo_registro] = resultado_json
+                    resultado["registros_validados"] += len(linhas)
+                    resultado["total_validacoes"] += len(resultado_json) if isinstance(resultado_json, list) else 1
+                except json.JSONDecodeError:
+                    logger.warning(f"Erro ao decodificar JSON do registro fiscal {codigo_registro} do bloco D")
+                    resultado["bloco_d"][codigo_registro] = []
+
+            except Exception as e:
+                logger.error(f"Erro ao validar registro fiscal {codigo_registro} do bloco D: {str(e)}")
+                resultado["bloco_d"][codigo_registro] = []
+
+        # Valida Bloco E Fiscal
+        for codigo_registro, linhas in linhas_bloco_e.items():
+            try:
+                validador = VALIDADORES_BLOCO_E_FISCAL[codigo_registro]
+                resultado_validacao = validador(linhas)
+
+                try:
+                    resultado_json = json.loads(resultado_validacao)
+                    resultado["bloco_e"][codigo_registro] = resultado_json
+                    resultado["registros_validados"] += len(linhas)
+                    resultado["total_validacoes"] += len(resultado_json) if isinstance(resultado_json, list) else 1
+                except json.JSONDecodeError:
+                    logger.warning(f"Erro ao decodificar JSON do registro fiscal {codigo_registro} do bloco E")
+                    resultado["bloco_e"][codigo_registro] = []
+
+            except Exception as e:
+                logger.error(f"Erro ao validar registro fiscal {codigo_registro} do bloco E: {str(e)}")
+                resultado["bloco_e"][codigo_registro] = []
+
+        # Valida Bloco H Fiscal
+        for codigo_registro, linhas in linhas_bloco_h.items():
+            try:
+                validador = VALIDADORES_BLOCO_H_FISCAL[codigo_registro]
+                resultado_validacao = validador(linhas)
+
+                try:
+                    resultado_json = json.loads(resultado_validacao)
+                    resultado["bloco_h"][codigo_registro] = resultado_json
+                    resultado["registros_validados"] += len(linhas)
+                    resultado["total_validacoes"] += len(resultado_json) if isinstance(resultado_json, list) else 1
+                except json.JSONDecodeError:
+                    logger.warning(f"Erro ao decodificar JSON do registro fiscal {codigo_registro} do bloco H")
+                    resultado["bloco_h"][codigo_registro] = []
+
+            except Exception as e:
+                logger.error(f"Erro ao validar registro fiscal {codigo_registro} do bloco H: {str(e)}")
+                resultado["bloco_h"][codigo_registro] = []
+
+        # Valida Bloco K Fiscal
+        for codigo_registro, linhas in linhas_bloco_k.items():
+            try:
+                validador = VALIDADORES_BLOCO_K_FISCAL[codigo_registro]
+                resultado_validacao = validador(linhas)
+
+                try:
+                    resultado_json = json.loads(resultado_validacao)
+                    resultado["bloco_k"][codigo_registro] = resultado_json
+                    resultado["registros_validados"] += len(linhas)
+                    resultado["total_validacoes"] += len(resultado_json) if isinstance(resultado_json, list) else 1
+                except json.JSONDecodeError:
+                    logger.warning(f"Erro ao decodificar JSON do registro fiscal {codigo_registro} do bloco K")
+                    resultado["bloco_k"][codigo_registro] = []
+
+            except Exception as e:
+                logger.error(f"Erro ao validar registro fiscal {codigo_registro} do bloco K: {str(e)}")
+                resultado["bloco_k"][codigo_registro] = []
+
+    except Exception as e:
+        logger.error(f"Erro ao processar validação fiscal: {str(e)}")
+    finally:
+        if arquivo:
+            arquivo.close()
+
     return resultado
 
 
@@ -1079,29 +1982,31 @@ def processar_zip_arquivos(zip_path):
                         }
                     }
                     
-                    # Se for EFD Contribuições, valida registros do bloco 0, 1, A, C, D, F, I e P
                     if classificacao == 'EFD_CONTRIBUICOES':
-                        # Verifica se há blocos 0, 1, A, C, D, F, I ou P para validar
                         tem_bloco_0 = '0' in blocos_info['blocos_encontrados']
                         tem_bloco_1 = '1' in blocos_info['blocos_encontrados']
+                        tem_bloco_9 = '9' in blocos_info['blocos_encontrados']
                         tem_bloco_a = 'A' in blocos_info['blocos_encontrados']
                         tem_bloco_c = 'C' in blocos_info['blocos_encontrados']
                         tem_bloco_d = 'D' in blocos_info['blocos_encontrados']
                         tem_bloco_f = 'F' in blocos_info['blocos_encontrados']
                         tem_bloco_i = 'I' in blocos_info['blocos_encontrados']
+                        tem_bloco_m = 'M' in blocos_info['blocos_encontrados']
                         tem_bloco_p = 'P' in blocos_info['blocos_encontrados']
                         
-                        if tem_bloco_0 or tem_bloco_1 or tem_bloco_a or tem_bloco_c or tem_bloco_d or tem_bloco_f or tem_bloco_i or tem_bloco_p:
-                            logger.info(f"Validando registros dos blocos 0, 1, A, C, D, F, I e P do arquivo '{nome_arquivo}'")
+                        if tem_bloco_0 or tem_bloco_1 or tem_bloco_9 or tem_bloco_a or tem_bloco_c or tem_bloco_d or tem_bloco_f or tem_bloco_i or tem_bloco_m or tem_bloco_p:
+                            logger.info(f"Validando registros dos blocos 0, 1, 9, A, C, D, F, I, M e P do arquivo '{nome_arquivo}'")
                             validacoes = validar_registros_blocos_0_1(conteudo)
                             arquivo_info['validacoes'] = {
                                 'bloco_0': validacoes['bloco_0'],
                                 'bloco_1': validacoes['bloco_1'],
+                                'bloco_9': validacoes.get('bloco_9', {}),
                                 'bloco_a': validacoes.get('bloco_a', {}),
                                 'bloco_c': validacoes.get('bloco_c', {}),
                                 'bloco_d': validacoes.get('bloco_d', {}),
                                 'bloco_f': validacoes.get('bloco_f', {}),
                                 'bloco_i': validacoes.get('bloco_i', {}),
+                                'bloco_m': validacoes.get('bloco_m', {}),
                                 'bloco_p': validacoes.get('bloco_p', {}),
                                 'total_validacoes': validacoes['total_validacoes'],
                                 'registros_validados': validacoes['registros_validados']
@@ -1110,11 +2015,13 @@ def processar_zip_arquivos(zip_path):
                             arquivo_info['validacoes'] = {
                                 'bloco_0': {},
                                 'bloco_1': {},
+                                'bloco_9': {},
                                 'bloco_a': {},
                                 'bloco_c': {},
                                 'bloco_d': {},
                                 'bloco_f': {},
                                 'bloco_i': {},
+                                'bloco_m': {},
                                 'bloco_p': {},
                                 'total_validacoes': 0,
                                 'registros_validados': 0
@@ -1122,6 +2029,44 @@ def processar_zip_arquivos(zip_path):
                         
                         resultado['efd_contribuicoes'].append(arquivo_info)
                     elif classificacao == 'EFD_FISCAL':
+                        tem_bloco_0_fiscal = '0' in blocos_info['blocos_encontrados']
+                        tem_bloco_9_fiscal = '9' in blocos_info['blocos_encontrados']
+                        tem_bloco_b_fiscal = 'B' in blocos_info['blocos_encontrados']
+                        tem_bloco_c_fiscal = 'C' in blocos_info['blocos_encontrados']
+                        tem_bloco_d_fiscal = 'D' in blocos_info['blocos_encontrados']
+                        tem_bloco_e_fiscal = 'E' in blocos_info['blocos_encontrados']
+                        tem_bloco_h_fiscal = 'H' in blocos_info['blocos_encontrados']
+                        tem_bloco_k_fiscal = 'K' in blocos_info['blocos_encontrados']
+
+                        if any([tem_bloco_0_fiscal, tem_bloco_9_fiscal, tem_bloco_b_fiscal, tem_bloco_c_fiscal, tem_bloco_d_fiscal, tem_bloco_e_fiscal, tem_bloco_h_fiscal, tem_bloco_k_fiscal]):
+                            logger.info(f"Validando registros fiscais dos blocos 0, 9, B, C, D, E, H e K do arquivo '{nome_arquivo}'")
+                            validacoes_fiscal = validar_registros_fiscal(conteudo)
+                            arquivo_info["validacoes"] = {
+                                "bloco_0": validacoes_fiscal.get("bloco_0", {}),
+                                "bloco_9": validacoes_fiscal.get("bloco_9", {}),
+                                "bloco_b": validacoes_fiscal.get("bloco_b", {}),
+                                "bloco_c": validacoes_fiscal.get("bloco_c", {}),
+                                "bloco_d": validacoes_fiscal.get("bloco_d", {}),
+                                "bloco_e": validacoes_fiscal.get("bloco_e", {}),
+                                "bloco_h": validacoes_fiscal.get("bloco_h", {}),
+                                "bloco_k": validacoes_fiscal.get("bloco_k", {}),
+                                "total_validacoes": validacoes_fiscal.get("total_validacoes", 0),
+                                "registros_validados": validacoes_fiscal.get("registros_validados", 0),
+                            }
+                        else:
+                            arquivo_info["validacoes"] = {
+                                "bloco_0": {},
+                                "bloco_9": {},
+                                "bloco_b": {},
+                                "bloco_c": {},
+                                "bloco_d": {},
+                                "bloco_e": {},
+                                "bloco_h": {},
+                                "bloco_k": {},
+                                "total_validacoes": 0,
+                                "registros_validados": 0,
+                            }
+
                         resultado['efd_fiscal'].append(arquivo_info)
                     else:
                         resultado['arquivos_nao_processados'].append(nome_arquivo)
@@ -1384,7 +2329,19 @@ def upload_zip():
                         "arquivos": [
                             {
                                 "nome_arquivo": arquivo['nome_arquivo'],
-                                "blocos": arquivo['blocos']
+                                "blocos": arquivo['blocos'],
+                                "validacoes": arquivo.get('validacoes', {
+                                    'bloco_0': {},
+                                    'bloco_9': {},
+                                    'bloco_b': {},
+                                    'bloco_c': {},
+                                    'bloco_d': {},
+                                    'bloco_e': {},
+                                    'bloco_h': {},
+                                    'bloco_k': {},
+                                    'total_validacoes': 0,
+                                    'registros_validados': 0
+                                })
                             }
                             for arquivo in resultado_classificacao['efd_fiscal']
                         ]
@@ -1473,19 +2430,15 @@ def download_zip():
         description: Erro interno do servidor
     """
     try:
-        # Obtém o nome do arquivo da query string (opcional)
         requested_filename = request.args.get('filename', 'output.zip')
         filename = secure_filename(requested_filename)
         
-        # Cria um arquivo ZIP temporário com alguns arquivos de exemplo
         temp_zip = tempfile.NamedTemporaryFile(delete=False, suffix='.zip')
         temp_zip_path = temp_zip.name
         temp_zip.close()
         
         try:
-            # Cria um ZIP com arquivos de exemplo
             with zipfile.ZipFile(temp_zip_path, 'w', zipfile.ZIP_DEFLATED) as zip_ref:
-                # Adiciona alguns arquivos de exemplo
                 zip_ref.writestr('exemplo1.txt', 'Este é um arquivo de exemplo 1')
                 zip_ref.writestr('exemplo2.txt', 'Este é um arquivo de exemplo 2')
                 zip_ref.writestr('exemplo3.txt', 'Este é um arquivo de exemplo 3')

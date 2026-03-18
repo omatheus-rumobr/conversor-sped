@@ -98,7 +98,7 @@ def _processar_linha_c105(linha):
     return resultado
 
 
-def validar_c105(linhas):
+def validar_c105_fiscal(linhas):
     """
     Valida e processa uma ou múltiplas linhas do registro C105 (Operações com ICMS ST Recolhido para UF
     Diversa do Destinatário do Documento Fiscal) do SPED.

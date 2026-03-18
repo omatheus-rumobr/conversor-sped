@@ -83,7 +83,7 @@ def _processar_linha_9001(linha):
     return resultado
 
 
-def validar_9001(linhas):
+def validar_9001_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro 9001 do SPED EFD Fiscal.
     

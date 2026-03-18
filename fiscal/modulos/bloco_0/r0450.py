@@ -85,7 +85,7 @@ def _processar_linha_0450(linha):
     return resultado
 
 
-def validar_0450(linhas):
+def validar_0450_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro 0450 do SPED EFD Fiscal.
     

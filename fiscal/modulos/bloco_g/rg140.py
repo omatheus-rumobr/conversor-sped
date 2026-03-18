@@ -187,7 +187,7 @@ def _processar_linha_g140(linha):
     }
 
 
-def validar_g140(linhas):
+def validar_g140_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro G140 do SPED EFD Fiscal.
 

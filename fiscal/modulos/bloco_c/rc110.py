@@ -79,7 +79,7 @@ def _processar_linha_c110(linha):
     return resultado
 
 
-def validar_c110(linhas):
+def validar_c110_fiscal(linhas):
     """
     Valida e processa uma ou múltiplas linhas do registro C110 (Informação Complementar da Nota Fiscal) do SPED.
     

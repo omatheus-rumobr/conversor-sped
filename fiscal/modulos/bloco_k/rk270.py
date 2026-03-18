@@ -236,7 +236,7 @@ def _processar_linha_k270(linha, dt_ini_0000=None):
     }
 
 
-def validar_k270(linhas, dt_ini_0000=None):
+def validar_k270_fiscal(linhas, dt_ini_0000=None):
     """
     Valida uma ou mais linhas do registro K270 do SPED EFD Fiscal.
 

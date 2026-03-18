@@ -282,7 +282,7 @@ def _processar_linha_c100(linha):
     return resultado
 
 
-def validar_c100(linhas):
+def validar_c100_fiscal(linhas):
     """
     Valida e processa uma ou múltiplas linhas do registro C100 (Nota Fiscal) do SPED.
     

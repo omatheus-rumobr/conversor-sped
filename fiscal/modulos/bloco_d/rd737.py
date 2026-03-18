@@ -195,7 +195,7 @@ def _processar_linha_d737(linha):
     return resultado
 
 
-def validar_d737(linhas):
+def validar_d737_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro D737 do SPED EFD Fiscal.
     

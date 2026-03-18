@@ -214,7 +214,7 @@ def _processar_linha_d760(linha):
     return resultado
 
 
-def validar_d760(linhas):
+def validar_d760_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro D760 do SPED EFD Fiscal.
     

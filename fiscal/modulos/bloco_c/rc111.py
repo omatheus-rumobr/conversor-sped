@@ -91,7 +91,7 @@ def _processar_linha_c111(linha):
     return resultado
 
 
-def validar_c111(linhas):
+def validar_c111_fiscal(linhas):
     """
     Valida e processa uma ou múltiplas linhas do registro C111 (Processo Referenciado) do SPED.
     

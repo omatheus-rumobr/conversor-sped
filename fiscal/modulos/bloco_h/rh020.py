@@ -125,7 +125,7 @@ def _processar_linha_h020(linha):
     }
 
 
-def validar_h020(linhas):
+def validar_h020_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro H020 do SPED EFD Fiscal.
 

@@ -240,7 +240,7 @@ def _processar_linha_g130(linha):
     }
 
 
-def validar_g130(linhas):
+def validar_g130_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro G130 do SPED EFD Fiscal.
 

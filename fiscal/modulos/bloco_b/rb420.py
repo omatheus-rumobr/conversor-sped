@@ -201,7 +201,7 @@ def _processar_linha_b420(linha):
     return resultado
 
 
-def validar_b420(linhas):
+def validar_b420_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro B420 do SPED EFD Fiscal.
     

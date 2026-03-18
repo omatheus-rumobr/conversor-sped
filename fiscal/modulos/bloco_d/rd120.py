@@ -131,7 +131,7 @@ def _processar_linha_d120(linha):
     return resultado
 
 
-def validar_d120(linhas):
+def validar_d120_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro D120 do SPED EFD Fiscal.
     

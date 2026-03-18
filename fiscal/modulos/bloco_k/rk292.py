@@ -116,7 +116,7 @@ def _processar_linha_k292(linha, cod_item_k291=None):
     }
 
 
-def validar_k292(linhas, cod_item_k291=None):
+def validar_k292_fiscal(linhas, cod_item_k291=None):
     """
     Valida uma ou mais linhas do registro K292 do SPED EFD Fiscal.
 

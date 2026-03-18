@@ -194,7 +194,7 @@ def _processar_linha_1975(linha):
     return resultado
 
 
-def validar_1975(linhas):
+def validar_1975_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro 1975 do SPED EFD Fiscal.
     

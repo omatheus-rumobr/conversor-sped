@@ -202,7 +202,7 @@ def _processar_linha_b510(linha):
     return resultado
 
 
-def validar_b510(linhas):
+def validar_b510_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro B510 do SPED EFD Fiscal.
     

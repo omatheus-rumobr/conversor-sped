@@ -193,7 +193,7 @@ def _processar_linha_e316(linha):
     }
 
 
-def validar_e316(linhas):
+def validar_e316_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro E316 do SPED EFD Fiscal.
 

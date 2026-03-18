@@ -85,7 +85,7 @@ def _processar_linha_0400(linha):
     return resultado
 
 
-def validar_0400(linhas):
+def validar_0400_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro 0400 do SPED EFD Fiscal.
     

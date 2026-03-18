@@ -175,7 +175,7 @@ def _processar_linha_e300(linha, dt_ini_0000=None, dt_fin_0000=None):
     }
 
 
-def validar_e300(linhas, dt_ini_0000=None, dt_fin_0000=None):
+def validar_e300_fiscal(linhas, dt_ini_0000=None, dt_fin_0000=None):
     """
     Valida uma ou mais linhas do registro E300 do SPED EFD Fiscal.
 

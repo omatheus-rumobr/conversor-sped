@@ -84,7 +84,7 @@ def _processar_linha_d195(linha):
     return resultado
 
 
-def validar_d195(linhas):
+def validar_d195_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro D195 do SPED EFD Fiscal.
     

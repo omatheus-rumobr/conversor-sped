@@ -208,7 +208,7 @@ def _processar_linha_b035(linha):
     return resultado
 
 
-def validar_b035(linhas):
+def validar_b035_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro B035 do SPED EFD Fiscal.
     

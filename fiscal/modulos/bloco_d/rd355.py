@@ -209,7 +209,7 @@ def _processar_linha_d355(linha):
     return resultado
 
 
-def validar_d355(linhas):
+def validar_d355_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro D355 do SPED EFD Fiscal.
     

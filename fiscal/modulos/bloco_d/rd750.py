@@ -313,7 +313,7 @@ def _processar_linha_d750(linha):
     return resultado
 
 
-def validar_d750(linhas):
+def validar_d750_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro D750 do SPED EFD Fiscal.
     

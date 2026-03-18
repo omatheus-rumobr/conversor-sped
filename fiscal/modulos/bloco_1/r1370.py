@@ -98,7 +98,7 @@ def _processar_linha_1370(linha):
     return resultado
 
 
-def validar_1370(linhas):
+def validar_1370_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro 1370 do SPED EFD Fiscal.
     

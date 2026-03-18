@@ -171,7 +171,7 @@ def _processar_linha_1601(linha):
     return resultado
 
 
-def validar_1601(linhas):
+def validar_1601_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro 1601 do SPED EFD Fiscal.
     

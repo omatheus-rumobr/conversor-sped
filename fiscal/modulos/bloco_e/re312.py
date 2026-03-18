@@ -83,7 +83,7 @@ def _processar_linha_e312(linha):
     }
 
 
-def validar_e312(linhas):
+def validar_e312_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro E312 do SPED EFD Fiscal.
 

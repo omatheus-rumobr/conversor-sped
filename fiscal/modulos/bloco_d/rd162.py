@@ -245,7 +245,7 @@ def _processar_linha_d162(linha):
     return resultado
 
 
-def validar_d162(linhas):
+def validar_d162_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro D162 do SPED EFD Fiscal.
     

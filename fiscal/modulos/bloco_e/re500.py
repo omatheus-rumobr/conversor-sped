@@ -145,7 +145,7 @@ def _processar_linha_e500(linha, dt_ini_0000=None, dt_fin_0000=None):
     }
 
 
-def validar_e500(linhas, dt_ini_0000=None, dt_fin_0000=None):
+def validar_e500_fiscal(linhas, dt_ini_0000=None, dt_fin_0000=None):
     """
     Valida uma ou mais linhas do registro E500 do SPED EFD Fiscal.
 

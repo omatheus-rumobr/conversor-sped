@@ -249,7 +249,7 @@ def _processar_linha_d390(linha):
     return resultado
 
 
-def validar_d390(linhas):
+def validar_d390_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro D390 do SPED EFD Fiscal.
     

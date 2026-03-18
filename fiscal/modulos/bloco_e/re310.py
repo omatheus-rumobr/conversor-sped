@@ -565,7 +565,7 @@ def _processar_linha_e310(linha, dt_ini_periodo=None):
         return _processar_linha_e310_antiga(linha)
 
 
-def validar_e310(linhas, dt_ini_periodo=None):
+def validar_e310_fiscal(linhas, dt_ini_periodo=None):
     """
     Valida uma ou mais linhas do registro E310 do SPED EFD Fiscal.
 

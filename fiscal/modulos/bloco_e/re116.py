@@ -189,7 +189,7 @@ def _processar_linha_e116(linha):
     }
 
 
-def validar_e116(linhas):
+def validar_e116_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro E116 do SPED EFD Fiscal.
     """

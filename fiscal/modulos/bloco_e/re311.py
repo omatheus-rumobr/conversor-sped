@@ -198,7 +198,7 @@ def _processar_linha_e311(linha, dt_ini_periodo=None):
     }
 
 
-def validar_e311(linhas, dt_ini_periodo=None):
+def validar_e311_fiscal(linhas, dt_ini_periodo=None):
     """
     Valida uma ou mais linhas do registro E311 do SPED EFD Fiscal.
 

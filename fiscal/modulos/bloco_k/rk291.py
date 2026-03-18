@@ -110,7 +110,7 @@ def _processar_linha_k291(linha):
     }
 
 
-def validar_k291(linhas):
+def validar_k291_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro K291 do SPED EFD Fiscal.
 

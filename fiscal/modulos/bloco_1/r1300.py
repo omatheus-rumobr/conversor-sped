@@ -281,7 +281,7 @@ def _processar_linha_1300(linha):
     return resultado
 
 
-def validar_1300(linhas):
+def validar_1300_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro 1300 do SPED EFD Fiscal.
     

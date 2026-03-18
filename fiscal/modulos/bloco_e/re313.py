@@ -233,7 +233,7 @@ def _processar_linha_e313(linha):
     }
 
 
-def validar_e313(linhas):
+def validar_e313_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro E313 do SPED EFD Fiscal.
 

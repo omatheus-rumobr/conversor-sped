@@ -129,7 +129,7 @@ def _processar_linha_e220(linha):
     }
 
 
-def validar_e220(linhas):
+def validar_e220_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro E220 do SPED EFD Fiscal.
 

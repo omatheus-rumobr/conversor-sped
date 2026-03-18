@@ -76,7 +76,7 @@ def _processar_linha_0206(linha):
     return resultado
 
 
-def validar_0206(linhas):
+def validar_0206_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro 0206 do SPED EFD Fiscal.
     

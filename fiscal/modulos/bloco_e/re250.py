@@ -193,7 +193,7 @@ def _processar_linha_e250(linha):
     }
 
 
-def validar_e250(linhas):
+def validar_e250_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro E250 do SPED EFD Fiscal.
 

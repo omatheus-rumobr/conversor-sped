@@ -238,7 +238,7 @@ def _processar_linha_e531(linha):
     }
 
 
-def validar_e531(linhas):
+def validar_e531_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro E531 do SPED EFD Fiscal.
 

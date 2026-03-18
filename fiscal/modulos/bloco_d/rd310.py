@@ -179,7 +179,7 @@ def _processar_linha_d310(linha):
     return resultado
 
 
-def validar_d310(linhas):
+def validar_d310_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro D310 do SPED EFD Fiscal.
     

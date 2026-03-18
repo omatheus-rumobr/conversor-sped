@@ -182,7 +182,7 @@ def _processar_linha_c113(linha):
     return resultado
 
 
-def validar_c113(linhas):
+def validar_c113_fiscal(linhas):
     """
     Valida e processa uma ou múltiplas linhas do registro C113 (Documento Fiscal Referenciado) do SPED.
     

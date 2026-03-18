@@ -227,7 +227,7 @@ def _processar_linha_e240(linha):
     }
 
 
-def validar_e240(linhas):
+def validar_e240_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro E240 do SPED EFD Fiscal.
 

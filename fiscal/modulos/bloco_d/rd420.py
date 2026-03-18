@@ -179,7 +179,7 @@ def _processar_linha_d420(linha):
     return resultado
 
 
-def validar_d420(linhas):
+def validar_d420_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro D420 do SPED EFD Fiscal.
     

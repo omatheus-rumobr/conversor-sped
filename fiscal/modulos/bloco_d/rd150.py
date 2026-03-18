@@ -244,7 +244,7 @@ def _processar_linha_d150(linha):
     return resultado
 
 
-def validar_d150(linhas):
+def validar_d150_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro D150 do SPED EFD Fiscal.
     

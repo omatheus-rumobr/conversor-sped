@@ -171,7 +171,7 @@ def _processar_linha_k255(linha, dt_ini_k100=None, dt_fin_k100=None, cod_item_k2
     }
 
 
-def validar_k255(linhas, dt_ini_k100=None, dt_fin_k100=None, cod_item_k250=None):
+def validar_k255_fiscal(linhas, dt_ini_k100=None, dt_fin_k100=None, cod_item_k250=None):
     """
     Valida uma ou mais linhas do registro K255 do SPED EFD Fiscal.
 

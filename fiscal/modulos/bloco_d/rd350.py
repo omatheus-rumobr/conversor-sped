@@ -111,7 +111,7 @@ def _processar_linha_d350(linha):
     return resultado
 
 
-def validar_d350(linhas):
+def validar_d350_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro D350 do SPED EFD Fiscal.
     

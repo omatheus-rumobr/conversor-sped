@@ -149,7 +149,7 @@ def _processar_linha_d365(linha):
     return resultado
 
 
-def validar_d365(linhas):
+def validar_d365_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro D365 do SPED EFD Fiscal.
     

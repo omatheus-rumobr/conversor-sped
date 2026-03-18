@@ -187,7 +187,7 @@ def _processar_linha_d197(linha):
     return resultado
 
 
-def validar_d197(linhas):
+def validar_d197_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro D197 do SPED EFD Fiscal.
     

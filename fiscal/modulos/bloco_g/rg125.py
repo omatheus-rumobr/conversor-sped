@@ -304,7 +304,7 @@ def _processar_linha_g125(linha, dt_ini_g110=None, dt_fin_g110=None):
     }
 
 
-def validar_g125(linhas, dt_ini_g110=None, dt_fin_g110=None):
+def validar_g125_fiscal(linhas, dt_ini_g110=None, dt_fin_g110=None):
     """
     Valida uma ou mais linhas do registro G125 do SPED EFD Fiscal.
 

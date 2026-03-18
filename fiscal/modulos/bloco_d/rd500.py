@@ -454,7 +454,7 @@ def _processar_linha_d500(linha):
     return resultado
 
 
-def validar_d500(linhas):
+def validar_d500_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro D500 do SPED EFD Fiscal.
     

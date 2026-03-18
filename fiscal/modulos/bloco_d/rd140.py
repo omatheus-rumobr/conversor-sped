@@ -277,7 +277,7 @@ def _processar_linha_d140(linha):
     return resultado
 
 
-def validar_d140(linhas):
+def validar_d140_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro D140 do SPED EFD Fiscal.
     

@@ -83,7 +83,7 @@ def _processar_linha_0190(linha):
     return resultado
 
 
-def validar_0190(linhas):
+def validar_0190_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro 0190 do SPED EFD Fiscal.
     

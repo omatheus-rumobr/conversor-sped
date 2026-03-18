@@ -251,7 +251,7 @@ def _processar_linha_g126(linha):
     }
 
 
-def validar_g126(linhas):
+def validar_g126_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro G126 do SPED EFD Fiscal.
 

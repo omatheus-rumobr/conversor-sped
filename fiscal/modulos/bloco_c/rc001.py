@@ -2,7 +2,7 @@ import re
 import json
 
 
-def validar_c001(linha):
+def validar_c001_fiscal(linha):
     """
     Valida e processa uma linha do registro C001 (Abertura do Bloco C) do SPED.
     

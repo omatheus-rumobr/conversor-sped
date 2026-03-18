@@ -382,7 +382,7 @@ def _processar_linha_1926(linha):
     return resultado
 
 
-def validar_1926(linhas):
+def validar_1926_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro 1926 do SPED EFD Fiscal.
     

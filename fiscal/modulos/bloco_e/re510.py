@@ -167,7 +167,7 @@ def _processar_linha_e510(linha):
     }
 
 
-def validar_e510(linhas):
+def validar_e510_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro E510 do SPED EFD Fiscal.
 

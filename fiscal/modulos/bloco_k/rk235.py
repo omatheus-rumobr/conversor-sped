@@ -197,7 +197,7 @@ def _processar_linha_k235(
     }
 
 
-def validar_k235(
+def validar_k235_fiscal(
     linhas,
     dt_ini_k100=None,
     dt_fin_k100=None,

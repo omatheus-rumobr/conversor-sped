@@ -149,7 +149,7 @@ def _processar_linha_k290(linha, dt_ini_k100=None, dt_fin_k100=None, dt_ini_0000
     }
 
 
-def validar_k290(linhas, dt_ini_k100=None, dt_fin_k100=None, dt_ini_0000=None):
+def validar_k290_fiscal(linhas, dt_ini_k100=None, dt_fin_k100=None, dt_ini_0000=None):
     """
     Valida uma ou mais linhas do registro K290 do SPED EFD Fiscal.
 

@@ -147,7 +147,7 @@ def _processar_linha_k275(linha, origem_k270=None):
     }
 
 
-def validar_k275(linhas, origem_k270=None):
+def validar_k275_fiscal(linhas, origem_k270=None):
     """
     Valida uma ou mais linhas do registro K275 do SPED EFD Fiscal.
 

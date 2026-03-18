@@ -143,7 +143,7 @@ def _processar_linha_d101(linha):
     return resultado
 
 
-def validar_d101(linhas):
+def validar_d101_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro D101 do SPED EFD Fiscal.
     

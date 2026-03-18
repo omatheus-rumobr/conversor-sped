@@ -98,7 +98,7 @@ def _processar_linha_0221(linha):
     return resultado
 
 
-def validar_0221(linhas):
+def validar_0221_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro 0221 do SPED EFD Fiscal.
     

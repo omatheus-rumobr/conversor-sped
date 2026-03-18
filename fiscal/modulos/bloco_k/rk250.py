@@ -153,7 +153,7 @@ def _processar_linha_k250(linha, dt_ini_k100=None, dt_fin_k100=None):
     }
 
 
-def validar_k250(linhas, dt_ini_k100=None, dt_fin_k100=None):
+def validar_k250_fiscal(linhas, dt_ini_k100=None, dt_fin_k100=None):
     """
     Valida uma ou mais linhas do registro K250 do SPED EFD Fiscal.
 

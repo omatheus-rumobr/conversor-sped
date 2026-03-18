@@ -258,7 +258,7 @@ def _processar_linha_1100(linha):
     return resultado
 
 
-def validar_1100(linhas):
+def validar_1100_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro 1100 do SPED EFD Fiscal.
     

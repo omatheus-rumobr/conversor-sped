@@ -131,7 +131,7 @@ def _processar_linha_k265(linha, cod_item_k260=None):
     }
 
 
-def validar_k265(linhas, cod_item_k260=None):
+def validar_k265_fiscal(linhas, cod_item_k260=None):
     """
     Valida uma ou mais linhas do registro K265 do SPED EFD Fiscal.
 

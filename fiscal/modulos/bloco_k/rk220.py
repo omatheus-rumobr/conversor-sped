@@ -180,7 +180,7 @@ def _processar_linha_k220(linha, dt_ini_k100=None, dt_fin_k100=None):
     }
 
 
-def validar_k220(linhas, dt_ini_k100=None, dt_fin_k100=None):
+def validar_k220_fiscal(linhas, dt_ini_k100=None, dt_fin_k100=None):
     """
     Valida uma ou mais linhas do registro K220 do SPED EFD Fiscal.
 

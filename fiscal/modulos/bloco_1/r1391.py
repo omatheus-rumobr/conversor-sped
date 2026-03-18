@@ -395,7 +395,7 @@ def _processar_linha_1391(linha):
     return resultado
 
 
-def validar_1391(linhas):
+def validar_1391_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro 1391 do SPED EFD Fiscal.
     

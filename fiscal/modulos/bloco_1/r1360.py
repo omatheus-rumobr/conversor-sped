@@ -116,7 +116,7 @@ def _processar_linha_1360(linha):
     return resultado
 
 
-def validar_1360(linhas):
+def validar_1360_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro 1360 do SPED EFD Fiscal.
     

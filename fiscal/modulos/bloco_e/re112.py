@@ -83,7 +83,7 @@ def _processar_linha_e112(linha):
     }
 
 
-def validar_e112(linhas):
+def validar_e112_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro E112 do SPED EFD Fiscal.
 

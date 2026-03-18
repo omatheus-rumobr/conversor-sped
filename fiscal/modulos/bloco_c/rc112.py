@@ -161,7 +161,7 @@ def _processar_linha_c112(linha):
     return resultado
 
 
-def validar_c112(linhas):
+def validar_c112_fiscal(linhas):
     """
     Valida e processa uma ou múltiplas linhas do registro C112 (Documento de Arrecadação Referenciado) do SPED.
     

@@ -271,7 +271,7 @@ def _processar_linha_b030(linha):
     return resultado
 
 
-def validar_b030(linhas):
+def validar_b030_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro B030 do SPED EFD Fiscal.
     

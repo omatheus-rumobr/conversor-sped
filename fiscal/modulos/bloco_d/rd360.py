@@ -132,7 +132,7 @@ def _processar_linha_d360(linha):
     return resultado
 
 
-def validar_d360(linhas):
+def validar_d360_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro D360 do SPED EFD Fiscal.
     

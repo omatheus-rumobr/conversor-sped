@@ -270,7 +270,7 @@ def _processar_linha_g110(linha, dt_ini_0000=None, dt_fin_0000=None):
     }
 
 
-def validar_g110(linhas, dt_ini_0000=None, dt_fin_0000=None):
+def validar_g110_fiscal(linhas, dt_ini_0000=None, dt_fin_0000=None):
     """
     Valida uma ou mais linhas do registro G110 do SPED EFD Fiscal.
 

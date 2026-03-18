@@ -312,7 +312,7 @@ def _processar_linha_d160(linha):
     return resultado
 
 
-def validar_d160(linhas):
+def validar_d160_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro D160 do SPED EFD Fiscal.
     

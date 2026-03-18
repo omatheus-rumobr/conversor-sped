@@ -326,7 +326,7 @@ def _processar_linha_d161(linha):
     return resultado
 
 
-def validar_d161(linhas):
+def validar_d161_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro D161 do SPED EFD Fiscal.
     

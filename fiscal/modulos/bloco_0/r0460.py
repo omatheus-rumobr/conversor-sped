@@ -85,7 +85,7 @@ def _processar_linha_0460(linha):
     return resultado
 
 
-def validar_0460(linhas):
+def validar_0460_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro 0460 do SPED EFD Fiscal.
     

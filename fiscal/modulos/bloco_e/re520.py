@@ -190,7 +190,7 @@ def _processar_linha_e520(linha):
     }
 
 
-def validar_e520(linhas):
+def validar_e520_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro E520 do SPED EFD Fiscal.
 

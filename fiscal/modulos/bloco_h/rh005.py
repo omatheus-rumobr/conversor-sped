@@ -160,7 +160,7 @@ def _processar_linha_h005(linha, dt_fin_0000=None):
     }
 
 
-def validar_h005(linhas, dt_fin_0000=None):
+def validar_h005_fiscal(linhas, dt_fin_0000=None):
     """
     Valida uma ou mais linhas do registro H005 do SPED EFD Fiscal.
 

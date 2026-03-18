@@ -214,7 +214,7 @@ def _processar_linha_1105(linha):
     return resultado
 
 
-def validar_1105(linhas):
+def validar_1105_fiscal(linhas):
     """
     Valida uma ou mais linhas do registro 1105 do SPED EFD Fiscal.
     
