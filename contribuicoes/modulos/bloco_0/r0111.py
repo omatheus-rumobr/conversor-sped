@@ -52,8 +52,7 @@ def _processar_linha_0111(linha):
     """
     Processa uma única linha do registro 0111 e retorna um dicionário.
     
-    Formato:
-      |0111|REC_BRU_NCUM_TRIB_MI|REC_BRU_NCUM_NT_MI|REC_BRU_NCUM_EXP|REC_BRU_CUM|REC_BRU_TOTAL|
+    Formato: |0111|REC_BRU_NCUM_TRIB_MI|REC_BRU_NCUM_NT_MI|REC_BRU_NCUM_EXP|REC_BRU_CUM|REC_BRU_TOTAL|
     
     Regras (manual 1.35):
     - REG: obrigatório, valor fixo "0111"

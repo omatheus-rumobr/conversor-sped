@@ -10,7 +10,7 @@ from modulos.bloco_c.rc170 import validar_c170
 from modulos.bloco_c.rc190 import validar_c190
 from modulos.bloco_0.r0001 import validar_0001
 from modulos.bloco_0.r0005 import validar_0005
-from modulos.bloco_0.r0150 import validar_0150
+from modulos.bloco_0.r0150 import validar_0150_fiscal
 
 try:
     from openpyxl import Workbook
@@ -425,7 +425,7 @@ def extrair_dados_participantes(linhas_bloco_0):
     if not linhas_0150:
         return participantes
     
-    json_resultado = validar_0150(linhas_0150)
+    json_resultado = validar_0150_fiscal(linhas_0150)
     
     if not json_resultado:
         return participantes

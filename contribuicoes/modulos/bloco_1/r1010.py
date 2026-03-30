@@ -1,5 +1,5 @@
-import json
 from datetime import datetime
+import json
 
 
 def _validar_data(data_str):

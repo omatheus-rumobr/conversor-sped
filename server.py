@@ -1,4 +1,21 @@
+import importlib
+import inspect
+import io
+import json
+import os
+from pathlib import Path
+import tempfile
+import zipfile
+from collections import defaultdict
+
+from flasgger import Swagger
+from flask import Flask, jsonify, request, send_file
+from loguru import logger
+from openpyxl import Workbook
+from werkzeug.utils import secure_filename
+
 from contribuicoes.modulos.bloco_0.r0000 import validar_0000
+from contribuicoes.modulos.bloco_0.r0001 import validar_0001
 from contribuicoes.modulos.bloco_0.r0035 import validar_0035
 from contribuicoes.modulos.bloco_0.r0100 import validar_0100
 from contribuicoes.modulos.bloco_0.r0110 import validar_0110
@@ -17,7 +34,8 @@ from contribuicoes.modulos.bloco_0.r0450 import validar_0450
 from contribuicoes.modulos.bloco_0.r0500 import validar_0500
 from contribuicoes.modulos.bloco_0.r0600 import validar_0600
 from contribuicoes.modulos.bloco_0.r0900 import validar_0900
-
+from contribuicoes.modulos.bloco_0.r0990 import validar_0990
+from contribuicoes.modulos.bloco_1.r1001 import validar_1001
 from contribuicoes.modulos.bloco_1.r1010 import validar_1010
 from contribuicoes.modulos.bloco_1.r1011 import validar_1011
 from contribuicoes.modulos.bloco_1.r1020 import validar_1020
@@ -39,19 +57,20 @@ from contribuicoes.modulos.bloco_1.r1700 import validar_1700
 from contribuicoes.modulos.bloco_1.r1800 import validar_1800
 from contribuicoes.modulos.bloco_1.r1809 import validar_1809
 from contribuicoes.modulos.bloco_1.r1900 import validar_1900
-
+from contribuicoes.modulos.bloco_1.r1990 import validar_1990
 from contribuicoes.modulos.bloco_9.r9001 import validar_9001
 from contribuicoes.modulos.bloco_9.r9900 import validar_9900
 from contribuicoes.modulos.bloco_9.r9990 import validar_9990
 from contribuicoes.modulos.bloco_9.r9999 import validar_9999
-
+from contribuicoes.modulos.bloco_a.ra001 import validar_a001
 from contribuicoes.modulos.bloco_a.ra010 import validar_a010
 from contribuicoes.modulos.bloco_a.ra100 import validar_a100
 from contribuicoes.modulos.bloco_a.ra110 import validar_a110
 from contribuicoes.modulos.bloco_a.ra111 import validar_a111
 from contribuicoes.modulos.bloco_a.ra120 import validar_a120
 from contribuicoes.modulos.bloco_a.ra170 import validar_a170
-
+from contribuicoes.modulos.bloco_a.ra990 import validar_a990
+from contribuicoes.modulos.bloco_c.rc001 import validar_c001
 from contribuicoes.modulos.bloco_c.rc010 import validar_c010
 from contribuicoes.modulos.bloco_c.rc100 import validar_c100
 from contribuicoes.modulos.bloco_c.rc110 import validar_c110
@@ -97,7 +116,8 @@ from contribuicoes.modulos.bloco_c.rc860 import validar_c860
 from contribuicoes.modulos.bloco_c.rc870 import validar_c870
 from contribuicoes.modulos.bloco_c.rc880 import validar_c880
 from contribuicoes.modulos.bloco_c.rc890 import validar_c890
-
+from contribuicoes.modulos.bloco_c.rc990 import validar_c990
+from contribuicoes.modulos.bloco_d.rd001 import validar_d001
 from contribuicoes.modulos.bloco_d.rd010 import validar_d010
 from contribuicoes.modulos.bloco_d.rd100 import validar_d100
 from contribuicoes.modulos.bloco_d.rd101 import validar_d101
@@ -119,7 +139,8 @@ from contribuicoes.modulos.bloco_d.rd600 import validar_d600
 from contribuicoes.modulos.bloco_d.rd601 import validar_d601
 from contribuicoes.modulos.bloco_d.rd605 import validar_d605
 from contribuicoes.modulos.bloco_d.rd609 import validar_d609
-
+from contribuicoes.modulos.bloco_d.rd990 import validar_d990
+from contribuicoes.modulos.bloco_f.rf001 import validar_f001
 from contribuicoes.modulos.bloco_f.rf010 import validar_f010
 from contribuicoes.modulos.bloco_f.rf100 import validar_f100
 from contribuicoes.modulos.bloco_f.rf111 import validar_f111
@@ -144,7 +165,8 @@ from contribuicoes.modulos.bloco_f.rf569 import validar_f569
 from contribuicoes.modulos.bloco_f.rf600 import validar_f600
 from contribuicoes.modulos.bloco_f.rf700 import validar_f700
 from contribuicoes.modulos.bloco_f.rf800 import validar_f800
-
+from contribuicoes.modulos.bloco_f.rf990 import validar_f990
+from contribuicoes.modulos.bloco_i.ri001 import validar_i001
 from contribuicoes.modulos.bloco_i.ri010 import validar_i010
 from contribuicoes.modulos.bloco_i.ri100 import validar_i100
 from contribuicoes.modulos.bloco_i.ri119 import validar_i119
@@ -152,7 +174,7 @@ from contribuicoes.modulos.bloco_i.ri200 import validar_i200
 from contribuicoes.modulos.bloco_i.ri299 import validar_i299
 from contribuicoes.modulos.bloco_i.ri300 import validar_i300
 from contribuicoes.modulos.bloco_i.ri399 import validar_i399
-
+from contribuicoes.modulos.bloco_i.ri990 import validar_i990
 from contribuicoes.modulos.bloco_m.rm001 import validar_m001
 from contribuicoes.modulos.bloco_m.rm100 import validar_m100
 from contribuicoes.modulos.bloco_m.rm105 import validar_m105
@@ -186,14 +208,14 @@ from contribuicoes.modulos.bloco_m.rm700 import validar_m700
 from contribuicoes.modulos.bloco_m.rm800 import validar_m800
 from contribuicoes.modulos.bloco_m.rm810 import validar_m810
 from contribuicoes.modulos.bloco_m.rm990 import validar_m990
-
+from contribuicoes.modulos.bloco_p.rp001 import validar_p001
 from contribuicoes.modulos.bloco_p.rp010 import validar_p010
 from contribuicoes.modulos.bloco_p.rp100 import validar_p100
 from contribuicoes.modulos.bloco_p.rp110 import validar_p110
 from contribuicoes.modulos.bloco_p.rp119 import validar_p199
 from contribuicoes.modulos.bloco_p.rp200 import validar_p200
 from contribuicoes.modulos.bloco_p.rp210 import validar_p210
-
+from contribuicoes.modulos.bloco_p.rp990 import validar_p990
 from fiscal.modulos.bloco_0.r0000 import validar_0000_fiscal
 from fiscal.modulos.bloco_0.r0001 import validar_0001_fiscal
 from fiscal.modulos.bloco_0.r0002 import validar_0002_fiscal
@@ -217,7 +239,6 @@ from fiscal.modulos.bloco_0.r0460 import validar_0460_fiscal
 from fiscal.modulos.bloco_0.r0500 import validar_0500_fiscal
 from fiscal.modulos.bloco_0.r0600 import validar_0600_fiscal
 from fiscal.modulos.bloco_0.r0990 import validar_0990_fiscal
-
 from fiscal.modulos.bloco_1.r1010 import validar_1010_fiscal
 from fiscal.modulos.bloco_1.r1100 import validar_1100_fiscal
 from fiscal.modulos.bloco_1.r1105 import validar_1105_fiscal
@@ -255,10 +276,8 @@ from fiscal.modulos.bloco_1.r1970 import validar_1970_fiscal
 from fiscal.modulos.bloco_1.r1975 import validar_1975_fiscal
 from fiscal.modulos.bloco_1.r1980 import validar_1980_fiscal
 from fiscal.modulos.bloco_1.r1990 import validar_1990_fiscal
-
 from fiscal.modulos.bloco_9.r9001 import validar_9001_fiscal
 from fiscal.modulos.bloco_9.r9990 import validar_9990_fiscal
-
 from fiscal.modulos.bloco_b.rb001 import validar_b001_fiscal
 from fiscal.modulos.bloco_b.rb020 import validar_b020_fiscal
 from fiscal.modulos.bloco_b.rb025 import validar_b025_fiscal
@@ -271,7 +290,6 @@ from fiscal.modulos.bloco_b.rb470 import validar_b470_fiscal
 from fiscal.modulos.bloco_b.rb500 import validar_b500_fiscal
 from fiscal.modulos.bloco_b.rb510 import validar_b510_fiscal
 from fiscal.modulos.bloco_b.rb990 import validar_b990_fiscal
-
 from fiscal.modulos.bloco_c.rc001 import validar_c001_fiscal
 from fiscal.modulos.bloco_c.rc100 import validar_c100_fiscal
 from fiscal.modulos.bloco_c.rc101 import validar_c101_fiscal
@@ -282,7 +300,6 @@ from fiscal.modulos.bloco_c.rc112 import validar_c112_fiscal
 from fiscal.modulos.bloco_c.rc113 import validar_c113_fiscal
 from fiscal.modulos.bloco_c.rc170 import validar_c170_fiscal
 from fiscal.modulos.bloco_c.rc190 import validar_c190_fiscal
-
 from fiscal.modulos.bloco_d.rd100 import validar_d100_fiscal
 from fiscal.modulos.bloco_d.rd101 import validar_d101_fiscal
 from fiscal.modulos.bloco_d.rd110 import validar_d110_fiscal
@@ -330,7 +347,6 @@ from fiscal.modulos.bloco_d.rd740 import validar_d740_fiscal
 from fiscal.modulos.bloco_d.rd750 import validar_d750_fiscal
 from fiscal.modulos.bloco_d.rd760 import validar_d760_fiscal
 from fiscal.modulos.bloco_d.rd761 import validar_d761_fiscal
-
 from fiscal.modulos.bloco_e.re100 import validar_e100_fiscal
 from fiscal.modulos.bloco_e.re110 import validar_e110_fiscal
 from fiscal.modulos.bloco_e.re111 import validar_e111_fiscal
@@ -393,7 +409,6 @@ from fiscal.modulos.bloco_e.re737 import validar_e737_fiscal
 from fiscal.modulos.bloco_e.re740 import validar_e740_fiscal
 from fiscal.modulos.bloco_e.re750 import validar_e750_fiscal
 from fiscal.modulos.bloco_e.re760 import validar_e760_fiscal
-
 from fiscal.modulos.bloco_g.rg001 import validar_g001_fiscal
 from fiscal.modulos.bloco_g.rg110 import validar_g110_fiscal
 from fiscal.modulos.bloco_g.rg125 import validar_g125_fiscal
@@ -401,14 +416,12 @@ from fiscal.modulos.bloco_g.rg126 import validar_g126_fiscal
 from fiscal.modulos.bloco_g.rg130 import validar_g130_fiscal
 from fiscal.modulos.bloco_g.rg140 import validar_g140_fiscal
 from fiscal.modulos.bloco_g.rg990 import validar_g990_fiscal
-
 from fiscal.modulos.bloco_h.rh001 import validar_h001_fiscal
 from fiscal.modulos.bloco_h.rh005 import validar_h005_fiscal
 from fiscal.modulos.bloco_h.rh010 import validar_h010_fiscal
 from fiscal.modulos.bloco_h.rh020 import validar_h020_fiscal
 from fiscal.modulos.bloco_h.rh030 import validar_h030_fiscal
 from fiscal.modulos.bloco_h.rh990 import validar_h990_fiscal
-
 from fiscal.modulos.bloco_k.rk001 import validar_k001_fiscal
 from fiscal.modulos.bloco_k.rk010 import validar_k010_fiscal
 from fiscal.modulos.bloco_k.rk100 import validar_k100_fiscal
@@ -433,19 +446,9 @@ from fiscal.modulos.bloco_k.rk301 import validar_k301_fiscal
 from fiscal.modulos.bloco_k.rk302 import validar_k302_fiscal
 from fiscal.modulos.bloco_k.rk990 import validar_k990_fiscal
 
-from flask import Flask, request, send_file, jsonify
-from werkzeug.utils import secure_filename
-from flasgger import Swagger
-from loguru import logger
-from pathlib import Path
-import tempfile
-import zipfile
-import json
-import os
-import io
-
 VALIDADORES_BLOCO_0 = {
     '0000': validar_0000,
+    '0001': validar_0001,
     '0035': validar_0035,
     '0100': validar_0100,
     '0110': validar_0110,
@@ -464,6 +467,7 @@ VALIDADORES_BLOCO_0 = {
     '0500': validar_0500,
     '0600': validar_0600,
     '0900': validar_0900,
+    '0990': validar_0990,
 }
 
 VALIDADORES_BLOCO_0_FISCAL = {
@@ -493,6 +497,7 @@ VALIDADORES_BLOCO_0_FISCAL = {
 }
 
 VALIDADORES_BLOCO_1 = {
+    '1001': validar_1001,
     '1010': validar_1010,
     '1011': validar_1011,
     '1020': validar_1020,
@@ -514,6 +519,7 @@ VALIDADORES_BLOCO_1 = {
     '1800': validar_1800,
     '1809': validar_1809,
     '1900': validar_1900,
+    '1990': validar_1990,
 }
 
 VALIDADE_BLOCO_1_FISCAL = {
@@ -569,12 +575,14 @@ VALIDADE_BLOCO_9_FISCAL = {
 }
 
 VALIDADORES_BLOCO_A = {
+    'A001': validar_a001,
     'A010': validar_a010,
     'A100': validar_a100,
     'A110': validar_a110,
     'A111': validar_a111,
     'A120': validar_a120,
     'A170': validar_a170,
+    'A990': validar_a990,
 }
 
 VALIDADORES_BLOCO_B = {
@@ -593,6 +601,7 @@ VALIDADORES_BLOCO_B = {
 }
 
 VALIDADORES_BLOCO_C = {
+    "C001": validar_c001,
     "C010": validar_c010,
     "C100": validar_c100,
     "C110": validar_c110,
@@ -637,7 +646,8 @@ VALIDADORES_BLOCO_C = {
     "C860": validar_c860,
     "C870": validar_c870,
     "C880": validar_c880,
-    "C890": validar_c890
+    "C890": validar_c890,
+    "C990": validar_c990,
 }
 
 VALIDADE_BLOCO_C_FISCAL = {
@@ -654,6 +664,7 @@ VALIDADE_BLOCO_C_FISCAL = {
 }
 
 VALIDADORES_BLOCO_D = {
+    "D001": validar_d001,
     "D010": validar_d010,
     "D100": validar_d100,
     "D101": validar_d101,
@@ -674,7 +685,8 @@ VALIDADORES_BLOCO_D = {
     "D600": validar_d600,
     "D601": validar_d601,
     "D605": validar_d605,
-    "D609": validar_d609
+    "D609": validar_d609,
+    "D990": validar_d990,
 }
 
 VALIDADORES_BLOCO_D_FISCAL = {
@@ -793,6 +805,7 @@ VALIDADORES_BLOCO_E_FISCAL = {
 }
 
 VALIDADORES_BLOCO_F = {
+    "F001": validar_f001,
     "F010": validar_f010,
     "F100": validar_f100,
     "F111": validar_f111,
@@ -816,7 +829,8 @@ VALIDADORES_BLOCO_F = {
     "F569": validar_f569,
     "F600": validar_f600,
     "F700": validar_f700,
-    "F800": validar_f800
+    "F800": validar_f800,
+    "F990": validar_f990,
 }
 
 VALIDADORES_BLOCO_G_FISCAL = {
@@ -839,13 +853,15 @@ VALIDADORES_BLOCO_H_FISCAL = {
 }
 
 VALIDADORES_BLOCO_I = {
+    "I001": validar_i001,
     "I010": validar_i010,
     "I100": validar_i100,
     "I119": validar_i119,
     "I200": validar_i200,
     "I299": validar_i299,
     "I300": validar_i300,
-    "I399": validar_i399
+    "I399": validar_i399,
+    "I990": validar_i990,
 }
 
 VALIDADORES_BLOCO_K_FISCAL = {
@@ -911,12 +927,14 @@ VALIDADORES_BLOCO_M = {
 }
 
 VALIDADORES_BLOCO_P = {
+    "P001": validar_p001,
     "P010": validar_p010,
     "P100": validar_p100,
     "P110": validar_p110,
     "P199": validar_p199,
     "P200": validar_p200,
     "P210": validar_p210,
+    "P990": validar_p990,
 }
 
 
@@ -1107,8 +1125,6 @@ def extrair_blocos_arquivo(conteudo_arquivo):
             'blocos_encontrados': ['0', '1', 'F', ...]
         }
     """
-    from collections import defaultdict
-    
     blocos_dict = defaultdict(lambda: defaultdict(int))
     total_registros = 0
     
@@ -1472,7 +1488,18 @@ def validar_registros_blocos_0_1(conteudo_arquivo):
             
             try:
                 validador = VALIDADORES_BLOCO_D[codigo_registro]
-                resultado_validacao = validador(linhas)
+                if codigo_registro in {"D001", "D990"}:
+                    # Regras de D001/D990 dependem do conteúdo do Bloco D como um todo.
+                    todas_linhas_bloco_d: list[str] = []
+                    for _reg, _linhas in linhas_bloco_d.items():
+                        if isinstance(_linhas, list):
+                            todas_linhas_bloco_d.extend(_linhas)
+                    if codigo_registro == "D001":
+                        resultado_validacao = validador(linhas, linhas_bloco_d=todas_linhas_bloco_d)
+                    else:
+                        resultado_validacao = validador(linhas, linhas_bloco_d=todas_linhas_bloco_d)
+                else:
+                    resultado_validacao = validador(linhas)
                 
                 try:
                     resultado_json = json.loads(resultado_validacao)
@@ -1495,7 +1522,15 @@ def validar_registros_blocos_0_1(conteudo_arquivo):
             
             try:
                 validador = VALIDADORES_BLOCO_F[codigo_registro]
-                resultado_validacao = validador(linhas)
+                if codigo_registro in {"F001", "F990"}:
+                    # Regras de F001/F990 dependem do conteúdo do Bloco F como um todo.
+                    todas_linhas_bloco_f: list[str] = []
+                    for _reg, _linhas in linhas_bloco_f.items():
+                        if isinstance(_linhas, list):
+                            todas_linhas_bloco_f.extend(_linhas)
+                    resultado_validacao = validador(linhas, linhas_bloco_f=todas_linhas_bloco_f)
+                else:
+                    resultado_validacao = validador(linhas)
                 
                 try:
                     resultado_json = json.loads(resultado_validacao)
@@ -1518,7 +1553,15 @@ def validar_registros_blocos_0_1(conteudo_arquivo):
             
             try:
                 validador = VALIDADORES_BLOCO_I[codigo_registro]
-                resultado_validacao = validador(linhas)
+                if codigo_registro in {"I001", "I990"}:
+                    # Regras de I001/I990 dependem do conteúdo do Bloco I como um todo.
+                    todas_linhas_bloco_i: list[str] = []
+                    for _reg, _linhas in linhas_bloco_i.items():
+                        if isinstance(_linhas, list):
+                            todas_linhas_bloco_i.extend(_linhas)
+                    resultado_validacao = validador(linhas, linhas_bloco_i=todas_linhas_bloco_i)
+                else:
+                    resultado_validacao = validador(linhas)
                 
                 try:
                     resultado_json = json.loads(resultado_validacao)
@@ -1564,7 +1607,15 @@ def validar_registros_blocos_0_1(conteudo_arquivo):
 
             try:
                 validador = VALIDADORES_BLOCO_P[codigo_registro]
-                resultado_validacao = validador(linhas)
+                if codigo_registro in {"P001", "P990"}:
+                    # Regras de P001/P990 dependem do conteúdo do Bloco P como um todo.
+                    todas_linhas_bloco_p: list[str] = []
+                    for _reg, _linhas in linhas_bloco_p.items():
+                        if isinstance(_linhas, list):
+                            todas_linhas_bloco_p.extend(_linhas)
+                    resultado_validacao = validador(linhas, linhas_bloco_p=todas_linhas_bloco_p)
+                else:
+                    resultado_validacao = validador(linhas)
 
                 try:
                     resultado_json = json.loads(resultado_validacao)
@@ -1667,55 +1718,46 @@ def validar_registros_fiscal(conteudo_arquivo):
 
             codigo_registro = partes[0].upper()
 
-            # Bloco 0 Fiscal
             if bloco == "0" and codigo_registro in VALIDADORES_BLOCO_0_FISCAL:
                 if codigo_registro not in linhas_bloco_0:
                     linhas_bloco_0[codigo_registro] = []
                 linhas_bloco_0[codigo_registro].append(linha)
 
-            # Bloco 9 Fiscal
             elif bloco == "9" and codigo_registro in VALIDADE_BLOCO_9_FISCAL:
                 if codigo_registro not in linhas_bloco_9:
                     linhas_bloco_9[codigo_registro] = []
                 linhas_bloco_9[codigo_registro].append(linha)
 
-            # Bloco B Fiscal
             elif bloco == "B" and codigo_registro in VALIDADORES_BLOCO_B:
                 if codigo_registro not in linhas_bloco_b:
                     linhas_bloco_b[codigo_registro] = []
                 linhas_bloco_b[codigo_registro].append(linha)
 
-            # Bloco C Fiscal
             elif bloco == "C" and codigo_registro in VALIDADE_BLOCO_C_FISCAL:
                 if codigo_registro not in linhas_bloco_c:
                     linhas_bloco_c[codigo_registro] = []
                 linhas_bloco_c[codigo_registro].append(linha)
 
-            # Bloco D Fiscal
             elif bloco == "D" and codigo_registro in VALIDADORES_BLOCO_D_FISCAL:
                 if codigo_registro not in linhas_bloco_d:
                     linhas_bloco_d[codigo_registro] = []
                 linhas_bloco_d[codigo_registro].append(linha)
 
-            # Bloco E Fiscal
             elif bloco == "E" and codigo_registro in VALIDADORES_BLOCO_E_FISCAL:
                 if codigo_registro not in linhas_bloco_e:
                     linhas_bloco_e[codigo_registro] = []
                 linhas_bloco_e[codigo_registro].append(linha)
 
-            # Bloco H Fiscal
             elif bloco == "H" and codigo_registro in VALIDADORES_BLOCO_H_FISCAL:
                 if codigo_registro not in linhas_bloco_h:
                     linhas_bloco_h[codigo_registro] = []
                 linhas_bloco_h[codigo_registro].append(linha)
 
-            # Bloco K Fiscal
             elif bloco == "K" and codigo_registro in VALIDADORES_BLOCO_K_FISCAL:
                 if codigo_registro not in linhas_bloco_k:
                     linhas_bloco_k[codigo_registro] = []
                 linhas_bloco_k[codigo_registro].append(linha)
 
-        # Valida Bloco 0 Fiscal
         for codigo_registro, linhas in linhas_bloco_0.items():
             try:
                 validador = VALIDADORES_BLOCO_0_FISCAL[codigo_registro]
@@ -1734,7 +1776,6 @@ def validar_registros_fiscal(conteudo_arquivo):
                 logger.error(f"Erro ao validar registro fiscal {codigo_registro} do bloco 0: {str(e)}")
                 resultado["bloco_0"][codigo_registro] = []
 
-        # Valida Bloco 9 Fiscal
         for codigo_registro, linhas in linhas_bloco_9.items():
             try:
                 validador = VALIDADE_BLOCO_9_FISCAL[codigo_registro]
@@ -1753,7 +1794,6 @@ def validar_registros_fiscal(conteudo_arquivo):
                 logger.error(f"Erro ao validar registro fiscal {codigo_registro} do bloco 9: {str(e)}")
                 resultado["bloco_9"][codigo_registro] = []
 
-        # Valida Bloco B Fiscal
         for codigo_registro, linhas in linhas_bloco_b.items():
             try:
                 validador = VALIDADORES_BLOCO_B[codigo_registro]
@@ -1772,7 +1812,6 @@ def validar_registros_fiscal(conteudo_arquivo):
                 logger.error(f"Erro ao validar registro fiscal {codigo_registro} do bloco B: {str(e)}")
                 resultado["bloco_b"][codigo_registro] = []
 
-        # Valida Bloco C Fiscal
         for codigo_registro, linhas in linhas_bloco_c.items():
             try:
                 validador = VALIDADE_BLOCO_C_FISCAL[codigo_registro]
@@ -1791,7 +1830,6 @@ def validar_registros_fiscal(conteudo_arquivo):
                 logger.error(f"Erro ao validar registro fiscal {codigo_registro} do bloco C: {str(e)}")
                 resultado["bloco_c"][codigo_registro] = []
 
-        # Valida Bloco D Fiscal
         for codigo_registro, linhas in linhas_bloco_d.items():
             try:
                 validador = VALIDADORES_BLOCO_D_FISCAL[codigo_registro]
@@ -1810,7 +1848,6 @@ def validar_registros_fiscal(conteudo_arquivo):
                 logger.error(f"Erro ao validar registro fiscal {codigo_registro} do bloco D: {str(e)}")
                 resultado["bloco_d"][codigo_registro] = []
 
-        # Valida Bloco E Fiscal
         for codigo_registro, linhas in linhas_bloco_e.items():
             try:
                 validador = VALIDADORES_BLOCO_E_FISCAL[codigo_registro]
@@ -1829,7 +1866,6 @@ def validar_registros_fiscal(conteudo_arquivo):
                 logger.error(f"Erro ao validar registro fiscal {codigo_registro} do bloco E: {str(e)}")
                 resultado["bloco_e"][codigo_registro] = []
 
-        # Valida Bloco H Fiscal
         for codigo_registro, linhas in linhas_bloco_h.items():
             try:
                 validador = VALIDADORES_BLOCO_H_FISCAL[codigo_registro]
@@ -1848,7 +1884,6 @@ def validar_registros_fiscal(conteudo_arquivo):
                 logger.error(f"Erro ao validar registro fiscal {codigo_registro} do bloco H: {str(e)}")
                 resultado["bloco_h"][codigo_registro] = []
 
-        # Valida Bloco K Fiscal
         for codigo_registro, linhas in linhas_bloco_k.items():
             try:
                 validador = VALIDADORES_BLOCO_K_FISCAL[codigo_registro]
@@ -1979,8 +2014,15 @@ def processar_zip_arquivos(zip_path):
                             'blocos': blocos_info['blocos'],
                             'total_registros': blocos_info['total_registros'],
                             'blocos_encontrados': blocos_info['blocos_encontrados']
-                        }
+                        },
+                        'linhas_por_bloco_registro': {}
                     }
+
+                    try:
+                        arquivo_info["linhas_por_bloco_registro"] = _extrair_linhas_por_bloco_registro(conteudo)
+                    except Exception as e:
+                        logger.warning(f"Falha ao extrair linhas por bloco/registro de '{nome_arquivo}': {str(e)}")
+                        arquivo_info["linhas_por_bloco_registro"] = {}
                     
                     if classificacao == 'EFD_CONTRIBUICOES':
                         tem_bloco_0 = '0' in blocos_info['blocos_encontrados']
@@ -2038,7 +2080,18 @@ def processar_zip_arquivos(zip_path):
                         tem_bloco_h_fiscal = 'H' in blocos_info['blocos_encontrados']
                         tem_bloco_k_fiscal = 'K' in blocos_info['blocos_encontrados']
 
-                        if any([tem_bloco_0_fiscal, tem_bloco_9_fiscal, tem_bloco_b_fiscal, tem_bloco_c_fiscal, tem_bloco_d_fiscal, tem_bloco_e_fiscal, tem_bloco_h_fiscal, tem_bloco_k_fiscal]):
+                        if any(
+                            [
+                                tem_bloco_0_fiscal, 
+                                tem_bloco_9_fiscal, 
+                                tem_bloco_b_fiscal, 
+                                tem_bloco_c_fiscal, 
+                                tem_bloco_d_fiscal, 
+                                tem_bloco_e_fiscal, 
+                                tem_bloco_h_fiscal, 
+                                tem_bloco_k_fiscal
+                            ]
+                        ):
                             logger.info(f"Validando registros fiscais dos blocos 0, 9, B, C, D, E, H e K do arquivo '{nome_arquivo}'")
                             validacoes_fiscal = validar_registros_fiscal(conteudo)
                             arquivo_info["validacoes"] = {
@@ -2084,6 +2137,427 @@ def processar_zip_arquivos(zip_path):
                 f"{len(resultado['arquivos_nao_processados'])} não processados")
     
     return resultado
+
+
+def _normalizar_nome_bloco(bloco):
+    bloco = (bloco or "").strip()
+    return bloco.upper()
+
+
+def _nome_xlsx_por_registro(prefixo, bloco, registro):
+    bloco_norm = _normalizar_nome_bloco(bloco)
+    registro_norm = (registro or "").strip().upper()
+    return f"{prefixo}_bloco{bloco_norm}_registro{registro_norm}.xlsx"
+
+
+def _decodificar_conteudo_sped(conteudo_arquivo):
+    if isinstance(conteudo_arquivo, str):
+        return conteudo_arquivo
+
+    encodings = ['latin-1', 'cp1252', 'iso-8859-1', 'utf-8']
+    for encoding in encodings:
+        try:
+            return conteudo_arquivo.decode(encoding)
+        except (UnicodeDecodeError, UnicodeError):
+            continue
+    return None
+
+
+def _extrair_campos_linha_sped(linha):
+    partes = linha.split("|")
+    if partes and not partes[0]:
+        partes = partes[1:]
+    if partes and not partes[-1]:
+        partes = partes[:-1]
+    return [p.strip() for p in partes]
+
+
+def _extrair_linhas_por_bloco_registro(conteudo_arquivo):
+    texto = _decodificar_conteudo_sped(conteudo_arquivo)
+    if texto is None:
+        return {}
+
+    saida: dict[str, dict[str, list[str]]] = {}
+    arquivo = io.StringIO(texto)
+    try:
+        for linha in arquivo:
+            linha = linha.strip()
+            if not linha or not linha.startswith("|"):
+                continue
+            bloco = extrair_bloco_registro(linha)
+            if not bloco:
+                continue
+            campos = _extrair_campos_linha_sped(linha)
+            if not campos:
+                continue
+            registro = (campos[0] or "").upper()
+            if not registro:
+                continue
+            bloco_norm = _normalizar_nome_bloco(bloco)
+            if bloco_norm not in saida:
+                saida[bloco_norm] = {}
+            if registro not in saida[bloco_norm]:
+                saida[bloco_norm][registro] = []
+            saida[bloco_norm][registro].append(linha)
+    finally:
+        arquivo.close()
+
+    return saida
+
+
+def _chave_validacoes_por_bloco(tipo, bloco):
+    """
+    Mapeia o identificador do bloco (ex.: '0', 'C', 'F') para a chave dentro de `arquivo_info['validacoes']`.
+    """
+    bloco_norm = _normalizar_nome_bloco(bloco)
+    if tipo == "efd_contribuicoes":
+        mapa = {
+            "0": "bloco_0",
+            "1": "bloco_1",
+            "9": "bloco_9",
+            "A": "bloco_a",
+            "C": "bloco_c",
+            "D": "bloco_d",
+            "F": "bloco_f",
+            "I": "bloco_i",
+            "M": "bloco_m",
+            "P": "bloco_p",
+        }
+        return mapa.get(bloco_norm)
+    if tipo == "efd_fiscal":
+        mapa = {
+            "0": "bloco_0",
+            "9": "bloco_9",
+            "B": "bloco_b",
+            "C": "bloco_c",
+            "D": "bloco_d",
+            "E": "bloco_e",
+            "H": "bloco_h",
+            "K": "bloco_k",
+        }
+        return mapa.get(bloco_norm)
+    return None
+
+
+def _criar_xlsx_registro(headers, rows):
+    wb = Workbook()
+
+    ws = wb.active
+    ws.title = "dados"
+    ws.append(headers)
+    for r in rows:
+        ws.append(r)
+
+    bio = io.BytesIO()
+    wb.save(bio)
+    return bio.getvalue()
+
+
+def _tentar_obter_ordem_campos_por_docstring(tipo, bloco, registro):
+    """
+    Tenta obter a ordem/nome dos campos conforme o "Formato: |...|" no docstring do _processar_linha_*.
+    Retorna lista de headers. Ex.: ["REG", "DT_INI_AP", "DT_FIN_AP", ...]
+    """
+    tipo_norm = (tipo or "").strip().lower()
+    bloco_norm = _normalizar_nome_bloco(bloco).lower()
+    reg_norm = (registro or "").strip().upper()
+    if not tipo_norm or not bloco_norm or not reg_norm:
+        return []
+
+    if tipo_norm == "efd_fiscal":
+        base_pkg = "fiscal"
+    elif tipo_norm == "efd_contribuicoes":
+        base_pkg = "contribuicoes"
+    else:
+        return []
+
+    mod_name = f"{base_pkg}.modulos.bloco_{bloco_norm}.r{reg_norm.lower()}"
+    try:
+        mod = importlib.import_module(mod_name)
+    except Exception:
+        return []
+
+    alvo = f"_processar_linha_{reg_norm.lower()}"
+    func = getattr(mod, alvo, None)
+    if not callable(func):
+        for _, f in inspect.getmembers(mod, inspect.isfunction):
+            if not f.__name__.startswith("_processar_linha_"):
+                continue
+            if f.__name__.endswith(reg_norm.lower()):
+                func = f
+                break
+        if not callable(func):
+            return []
+
+    doc = inspect.getdoc(func) or ""
+    linhas_doc = doc.splitlines()
+    for i, ln in enumerate(linhas_doc):
+        if "Formato:" not in ln:
+            continue
+
+        parte = ln.split("Formato:", 1)[1].strip()
+        # Padrão comum nos módulos: "Formato:" em uma linha e o "|REG|...|" na linha seguinte
+        if "|" not in parte:
+            prox = (linhas_doc[i + 1].strip() if i + 1 < len(linhas_doc) else "")
+            if "|" in prox:
+                parte = prox
+            else:
+                continue
+
+        campos = [p.strip() for p in parte.split("|") if p.strip()]
+        if not campos:
+            return []
+        return ["REG"] + [c for c in campos[1:]]
+
+    return []
+
+
+def _titulos_por_chave(item_validado: dict, chaves: list[str]) -> list[str]:
+    titulos: list[str] = []
+    for c in chaves:
+        v = item_validado.get(c)
+        if isinstance(v, dict):
+            t = (v.get("titulo") or "").strip()
+            titulos.append(t if t else c)
+        else:
+            titulos.append(c)
+    return titulos
+
+
+def _rotulo_coluna(chave: str, titulo: str | None) -> str:
+    """
+    Monta o rótulo da coluna para XLSX.
+    Preferimos "CHAVE - Título" para manter o nome técnico do campo.
+    """
+    k = (chave or "").strip()
+    t = (titulo or "").strip()
+    if not k:
+        return t
+    if not t or t == k:
+        return k
+    return f"{k} - {t}"
+
+
+def _rows_from_validacoes(lista_validada, chaves_preferidas=None):
+    """
+    Converte a saída dos validadores (lista de dicts com {"CAMPO": {"titulo":..,"valor":..}}) em
+    headers e rows. Mantém somente o 'valor' de cada campo.
+    """
+    if not lista_validada:
+        return [], []
+
+    # Junta todas as chaves presentes nos itens para garantir "cada campo vira uma coluna"
+    todas_chaves: list[str] = []
+    visto = set()
+    for item in lista_validada:
+        if not isinstance(item, dict):
+            continue
+        for k in item.keys():
+            ks = str(k)
+            if ks not in visto:
+                visto.add(ks)
+                todas_chaves.append(ks)
+
+    if chaves_preferidas:
+        # Mantém ordem do manual/docstring; depois anexa as chaves extras encontradas
+        chaves = [c for c in chaves_preferidas if c in visto]
+        for c in todas_chaves:
+            if c not in chaves:
+                chaves.append(c)
+    else:
+        chaves = todas_chaves
+
+    # Títulos: pega o primeiro "titulo" disponível em qualquer item
+    headers: list[str] = []
+    for c in chaves:
+        titulo = ""
+        for item in lista_validada:
+            if not isinstance(item, dict):
+                continue
+            v = item.get(c)
+            if isinstance(v, dict):
+                t = (v.get("titulo") or "").strip()
+                if t:
+                    titulo = t
+                    break
+        headers.append(_rotulo_coluna(c, titulo if titulo else None))
+
+    rows: list[list] = []
+    for item in lista_validada:
+        row: list = []
+        for c in chaves:
+            v = item.get(c)
+            if isinstance(v, dict):
+                row.append(v.get("valor", ""))
+            else:
+                row.append("" if v is None else str(v))
+        rows.append(row)
+
+    return headers, rows
+
+
+def _tentar_obter_mapa_titulos_por_linha(tipo, bloco, registro, linha_exemplo):
+    """
+    Tenta obter {CHAVE: TITULO} chamando o _processar_linha_* do módulo do registro
+    usando uma linha real como exemplo.
+    """
+    if not linha_exemplo:
+        return {}
+
+    tipo_norm = (tipo or "").strip().lower()
+    bloco_norm = _normalizar_nome_bloco(bloco).lower()
+    reg_norm = (registro or "").strip().upper()
+    if not tipo_norm or not bloco_norm or not reg_norm:
+        return {}
+
+    if tipo_norm == "efd_fiscal":
+        base_pkg = "fiscal"
+    elif tipo_norm == "efd_contribuicoes":
+        base_pkg = "contribuicoes"
+    else:
+        return {}
+
+    mod_name = f"{base_pkg}.modulos.bloco_{bloco_norm}.r{reg_norm.lower()}"
+    try:
+        mod = importlib.import_module(mod_name)
+    except Exception:
+        return {}
+
+    alvo = f"_processar_linha_{reg_norm.lower()}"
+    func = getattr(mod, alvo, None)
+    if not callable(func):
+        for _, f in inspect.getmembers(mod, inspect.isfunction):
+            if not f.__name__.startswith("_processar_linha_"):
+                continue
+            if f.__name__.endswith(reg_norm.lower()):
+                func = f
+                break
+        if not callable(func):
+            return {}
+
+    try:
+        sig = inspect.signature(func)
+        kwargs = {}
+        # passa apenas parâmetros opcionais com default, deixando o chamador decidir regras externas
+        for name, p in sig.parameters.items():
+            if name == "linha":
+                continue
+            if p.default is not inspect._empty:
+                kwargs[name] = p.default
+        out = func(linha_exemplo, **kwargs)  # type: ignore[arg-type]
+    except Exception:
+        return {}
+
+    if not isinstance(out, dict):
+        return {}
+
+    mapa: dict[str, str] = {}
+    for k, v in out.items():
+        if isinstance(v, dict):
+            t = (v.get("titulo") or "").strip()
+            if t:
+                mapa[str(k)] = t
+    return mapa
+
+
+def _rows_from_linhas_raw(chaves, titulos, linhas):
+    if not linhas or not chaves:
+        return [], []
+
+    if titulos and len(titulos) == len(chaves):
+        headers = [_rotulo_coluna(k, t) for k, t in zip(chaves, titulos)]
+    else:
+        headers = [(_rotulo_coluna(k, None)) for k in chaves]
+
+    rows: list[list] = []
+    for ln in linhas:
+        campos = _extrair_campos_linha_sped(ln)
+        # Mantém o mesmo alinhamento do SPED: primeiro campo é o "REG" do registro
+        vals = []
+        for i, _ in enumerate(chaves):
+            vals.append(campos[i] if i < len(campos) else "")
+        rows.append(vals)
+
+    return headers, rows
+
+
+def _montar_zip_relatorios(resultado_classificacao, nome_zip_origem):
+    """
+    Gera um ZIP (em memória) com relatórios XLSX por registro (por bloco).
+    Estrutura:
+      - efd_fiscal/efd_fiscal_bloco0_registro0000.xlsx ...
+      - efd_contribuicoes/efd_contribuicoes_blocoF_registroF100.xlsx ...
+    """
+    zip_buffer = io.BytesIO()
+    with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zf:
+        for tipo in ("efd_fiscal", "efd_contribuicoes"):
+            arquivos = resultado_classificacao.get(tipo, []) or []
+
+            agreg_headers: dict[tuple[str, str], list[str]] = {}
+            agreg_rows: dict[tuple[str, str], list[list]] = {}
+
+            for arquivo_info in arquivos:
+                validacoes_info = arquivo_info.get("validacoes") or {}
+                linhas_por = arquivo_info.get("linhas_por_bloco_registro") or {}
+
+                for bloco_norm, regs in (linhas_por.items() if isinstance(linhas_por, dict) else []):
+                    bloco_norm = _normalizar_nome_bloco(bloco_norm)
+                    chave_val = _chave_validacoes_por_bloco(tipo, bloco_norm)
+                    val_bloco = validacoes_info.get(chave_val, {}) if chave_val else {}
+
+                    if not isinstance(regs, dict):
+                        continue
+
+                    for reg, linhas_registro in regs.items():
+                        reg_norm = (reg or "").strip().upper()
+                        if not reg_norm:
+                            continue
+
+                        lista_validada = None
+                        if isinstance(val_bloco, dict) and reg_norm in val_bloco:
+                            lista_validada = val_bloco.get(reg_norm)
+
+                        headers_doc = _tentar_obter_ordem_campos_por_docstring(tipo, bloco_norm, reg_norm)
+                        if isinstance(lista_validada, list) and lista_validada:
+                            headers, rows = _rows_from_validacoes(lista_validada, chaves_preferidas=headers_doc)
+                        else:
+                            linhas_lista = linhas_registro if isinstance(linhas_registro, list) else []
+
+                            chaves = headers_doc[:] if headers_doc else []
+                            if not chaves:
+                                # Sem docstring: usa quantidade de campos observada no arquivo
+                                max_campos = 0
+                                for ln in linhas_lista:
+                                    c = _extrair_campos_linha_sped(ln)
+                                    if len(c) > max_campos:
+                                        max_campos = len(c)
+                                chaves = ["REG"] + [f"CAMPO_{i:02d}" for i in range(1, max(1, max_campos))]
+
+                            exemplo = linhas_lista[0] if linhas_lista else ""
+                            mapa_titulos = _tentar_obter_mapa_titulos_por_linha(tipo, bloco_norm, reg_norm, exemplo)
+                            titulos = [mapa_titulos.get(k, k) for k in chaves]
+
+                            headers, rows = _rows_from_linhas_raw(chaves, titulos, linhas_lista)
+
+                        if not headers or not rows:
+                            continue
+
+                        chave = (bloco_norm, reg_norm)
+                        if chave not in agreg_rows:
+                            agreg_rows[chave] = []
+                            agreg_headers[chave] = headers
+
+                        agreg_rows[chave].extend(rows)
+
+            for (bloco_norm, reg_norm), rows in sorted(agreg_rows.items()):
+                headers = agreg_headers.get((bloco_norm, reg_norm), ["REG"])
+                xlsx_bytes = _criar_xlsx_registro(headers, rows)
+                nome_xlsx = _nome_xlsx_por_registro(tipo, bloco_norm, reg_norm)
+                caminho_zip = f"{tipo}/{nome_xlsx}"
+                zf.writestr(caminho_zip, xlsx_bytes)
+
+    zip_buffer.seek(0)
+    return zip_buffer
 
 
 @app.route('/health', methods=['GET'])
@@ -2317,87 +2791,48 @@ def upload_zip():
         
         try:
             resultado_classificacao = processar_zip_arquivos(filepath)
-            
-            resposta = {
-                "message": "Arquivo recebido e processado com sucesso",
-                "filename": filename,
-                "size": file_size,
-                "total_arquivos": resultado_classificacao['total_arquivos'],
-                "classificacao": {
-                    "efd_fiscal": {
-                        "quantidade": len(resultado_classificacao['efd_fiscal']),
-                        "arquivos": [
-                            {
-                                "nome_arquivo": arquivo['nome_arquivo'],
-                                "blocos": arquivo['blocos'],
-                                "validacoes": arquivo.get('validacoes', {
-                                    'bloco_0': {},
-                                    'bloco_9': {},
-                                    'bloco_b': {},
-                                    'bloco_c': {},
-                                    'bloco_d': {},
-                                    'bloco_e': {},
-                                    'bloco_h': {},
-                                    'bloco_k': {},
-                                    'total_validacoes': 0,
-                                    'registros_validados': 0
-                                })
-                            }
-                            for arquivo in resultado_classificacao['efd_fiscal']
-                        ]
-                    },
-                    "efd_contribuicoes": {
-                        "quantidade": len(resultado_classificacao['efd_contribuicoes']),
-                        "arquivos": [
-                            {
-                                "nome_arquivo": arquivo['nome_arquivo'],
-                                "blocos": arquivo['blocos'],
-                                "validacoes": arquivo.get('validacoes', {
-                                    'bloco_0': {},
-                                    'bloco_1': {},
-                                    'bloco_a': {},
-                                    'bloco_c': {},
-                                    'bloco_d': {},
-                                    'bloco_f': {},
-                                    'bloco_i': {},
-                                    'total_validacoes': 0,
-                                    'registros_validados': 0
-                                })
-                            }
-                            for arquivo in resultado_classificacao['efd_contribuicoes']
-                        ]
-                    },
-                    "nao_processados": {
-                        "quantidade": len(resultado_classificacao['arquivos_nao_processados']),
-                        "arquivos": resultado_classificacao['arquivos_nao_processados']
-                    }
-                }
-            }
-            
-            logger.info(f"Processamento concluído: {len(resultado_classificacao['efd_fiscal'])} EFD Fiscal, "
-                       f"{len(resultado_classificacao['efd_contribuicoes'])} EFD Contribuições")
-            
+
+            logger.info(
+                f"Processamento concluído: {len(resultado_classificacao['efd_fiscal'])} EFD Fiscal, "
+                f"{len(resultado_classificacao['efd_contribuicoes'])} EFD Contribuições, "
+                f"{len(resultado_classificacao.get('arquivos_nao_processados', []))} não processados"
+            )
+
+            zip_relatorios = _montar_zip_relatorios(resultado_classificacao, filename)
+            download_name = f"{Path(filename).stem}_relatorios.zip"
+
             try:
                 if os.path.exists(filepath):
                     os.remove(filepath)
                     logger.debug(f"Arquivo temporário removido: {filepath}")
             except Exception as e:
                 logger.warning(f"Erro ao remover arquivo temporário: {str(e)}")
-            
-            return jsonify(resposta), 200
+
+            return send_file(
+                zip_relatorios,
+                mimetype="application/zip",
+                as_attachment=True,
+                download_name=download_name,
+            )
             
         except Exception as e:
             logger.error(f"Erro ao processar arquivos do ZIP: {str(e)}")
-            return jsonify({
-                "message": "Arquivo recebido, mas houve erro ao processar",
-                "filename": filename,
-                "size": file_size,
-                "error": f"Erro ao processar arquivos: {str(e)}"
-            }), 500
+            return (
+                jsonify(
+                    {
+                        "status": "error",
+                        "message": "Arquivo recebido, mas houve erro ao processar",
+                        "filename": filename,
+                        "size": file_size,
+                        "error": str(e),
+                    }
+                ),
+                500,
+            )
         
     except Exception as e:
         logger.error(f"Erro ao processar upload: {str(e)}")
-        return jsonify({"error": f"Erro ao processar arquivo: {str(e)}"}), 500
+        return jsonify({"status": "error", "error": str(e)}), 500
 
 
 @app.route('/download-zip', methods=['GET'])
